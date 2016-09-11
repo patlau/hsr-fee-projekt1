@@ -32,11 +32,42 @@
 
         </footer>
 
+        <script id="header-template"  type="text/x-handlebars-template">
+            <p id="toolbar">
+                <span>
+                    <button name="newNote">Create new Note</button>
+                </span>
+                <span>
+                    <select name="styleSelection" size="2">
+                        <option>BlackWhite-Style</option>
+                        <option>Color-Style</option>
+                    </select>
+                </span>
+            </p>
+        </script>
+
+        <script id="list-template"  type="text/x-handlebars-template">
+            <p id="listHeader">
+                <span id="listSortOrder">
+                    <button name="SortByFinishDate">By finish Date</button>
+                    <button name="SortByCreatedDate">By created Date</button>
+                    <button name="SortByImportance">By Importance</button>
+                </span>
+                <span>
+                    <button name="ShowFinished">Show finished</button>
+                </span>
+            </p>
+            <p id="listEntries">
+
+            </p>
+        </script>
 
         <script id="footer-template" type="text/x-handlebars-template">
-            <div class="entry">
-                <p>{{about}}</p>
-            </div>
+            <hr/>
+            <p class="entry">
+                <span>{{project}}</span>
+                <span>{{student}}</span>
+            </p>
         </script>
 
         <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>

@@ -26,6 +26,7 @@ var expectedFilesInDistDir = [
             // should be included at the end
         'css/main.css',
         'css/normalize.css',
+        'css/font-awesome.min.css',
 
     'doc/',
         'doc/TOC.md',
@@ -38,6 +39,9 @@ var expectedFilesInDistDir = [
         'doc/usage.md',
 
     'favicon.ico',
+
+    'fonts/',
+
     'humans.txt',
 
     'img/',
@@ -51,6 +55,7 @@ var expectedFilesInDistDir = [
         'js/vendor/',
             'js/vendor/jquery-' + pkg.devDependencies.jquery + '.min.js',
             'js/vendor/modernizr-2.8.3.min.js',
+            'js/vendor/handlebars.min.js',
 
     'LICENSE.txt',
     'robots.txt',
@@ -65,6 +70,7 @@ function checkFiles(directory, expectedFiles) {
 
     // Get the list of files from the specified directory
     var files = require('glob').sync('**/*', {
+        'ignore': ['fonts/*.*'],
         'cwd': directory,
         'dot': true,      // include hidden files
         'mark': true      // add a `/` character to directory matches
