@@ -2,12 +2,44 @@
 
 (function() {
 
-    /*function Note(title, description, importance, due, done) {
+    var templateCache = {};
+
+    var testNotes = [
+        {
+            "due": "2016-09-25",
+            "importance": 2,
+            "description": `HTML für die note App erstellen.
+CSS erstellen für die note App. 
+Mehr erstellen für die note App`,
+            "title": "CAS FEE Selbststudium / Projekt Aufgaben erledigen",
+            "done": true
+        },
+        {
+            "due": "2016-09-19",
+            "importance": 1,
+            "description": `Butter
+Eier
+Mehl`,
+            "title": "Einkaufen",
+            "done": false
+        },
+        {
+            "due": "2016-09-01",
+            "importance": 0,
+            "description": "999 99 99",
+            "title": "Mami anrufen",
+            "done": false
+        }
+    ];
+
+    var notes = [];
+
+    function Note(title, description, importance, due, done) {
         this.description = description;
         this.importance = importance;
         this.due = due;
         this.done = done;
-    }*/
+    }
 
     function getAbout() {
         return {
@@ -16,41 +48,44 @@
         };
     }
 
+    /*
+     * Load Handlebars template and update DOM if a selector is given.
+     * Each template is also registered as partial, so it can
+     * be reused.
+     */
     function loadTemplate(jQuerySelector, templateId, context) {
-        var source = $(templateId).html();
-        var template = Handlebars.compile(source);
-        var html    = template(context);
-        $(jQuerySelector).html(html);
+        let template = templateCache[templateId];
+        if(template === undefined) {
+            console.log("Compile template " + templateId);
+            let source = $('#' + templateId).html();
+            template = Handlebars.compile(source);
+            templateCache[templateId] = template;
+            Handlebars.registerPartial(templateId, template);
+        }
+        if(jQuerySelector !== "") {
+            console.log("Updating template " + templateId);
+            var html = template(context);
+            $(jQuerySelector).html(html);
+        }
     }
 
     function loadTemplates() {
-//        loadTemplate("header", "#header-template", {});
-        loadTemplate("main", "#master-template", {"notes": []});
-        loadTemplate(".app-footer", "#app-footer-template", getAbout());
+        loadTemplate("", "list-entry-template", {});
+        loadTemplate("main", "master-template", {"notes": notes});
+        loadTemplate(".app-footer", "app-footer-template", getAbout());
     }
 
     function loadNotes() {
-        console.log("Load notes");
-        $.getJSON( "test-data/notes.json")
-            .done(function( data ) {
-                console.log(data);
-                //for (let item of data) {
-                //    let note = $.extend(new Note(), item);
-                //    console.log(note);
-                //}
-                loadTemplate("main", "#master-template", {"notes": data});
-            })
-            .fail(function( data ) {
-                console.log( "error: " + data );
-            })
-            .always(function() {
-                console.log( "complete" );
-            });
+        let data = testNotes;
+        for (let item of data) {
+            let note = $.extend(new Note(), item);
+            notes.push(note);
+        }
     }
 
     $(document).ready(function () {
-        loadTemplates();
         loadNotes();
+        loadTemplates();
     });
 
 })();

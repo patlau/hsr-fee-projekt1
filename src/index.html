@@ -36,46 +36,47 @@
 
         <script id="master-template" type="text/x-handlebars-template">
             <div>
-                <header class="master-header">
-                    <p id="toolbar">
-                    <span>
+                <p class="toolbar-container">
+                    <span class="toolbar-left">
                         <button name="newNote">Create new Note</button>
                     </span>
-                        <span>
+                    <span class="toolbar-right">
                         <select name="styleSelection" size="2">
                             <option>BlackWhite-Style</option>
                             <option>Color-Style</option>
                         </select>
                     </span>
-                    </p>
-                    <div class="list-header"></div>
-                </header>
-                <p id="listHeader">
-                    <span id="listSortOrder">
+                </p>
+                <p class="list-header-container toolbar-container">
+                    <span class="list-sort-order toolbar-left">
                         <button name="SortByFinishDate">By finish Date</button>
                         <button name="SortByCreatedDate">By created Date</button>
                         <button name="SortByImportance">By Importance</button>
                     </span>
-                    <span>
+                    <span class="toolbar-right">
                         <button name="ShowFinished">Show finished</button>
                     </span>
                 </p>
-                <div id="listEntries">
+                <p id="list-container">
                     {{#each notes}}
-                    <p>{{description}}</p>
+                    {{> list-entry-template this }}
                     {{/each}}
-                </div>
+                </p>
             </div>
         </script>
 
         <script id="list-entry-template" type="text/x-handlebars-template">
-            <div class="list-entry">
-                <div class="list-entry-header">
-                    <div>{{due}}</div><div>{{title}}</div><div>{{importance}}</div>
-                </div>
-                <div class="list-entry-main">
-                    <input name="finished" value="{{done}}" type="checkbox">
-                    <input name="description" value="{{description}}" type="text">
+            <div class="list-entry-row-container">
+                <div class="list-entry-data-container">
+                    <div class="list-entry-data-row">
+                        <span class="list-entry-data-col">{{due}}</span>
+                        <span class="list-entry-data-col">{{title}}</span>
+                        <span class="list-entry-data-col">{{importance}}</span>
+                    </div>
+                    <div class="list-entry-data-row">
+                        <span class="list-entry-data-col"><input name="finished" value="{{done}}" type="checkbox"> Erledigt</span>
+                        <span class="list-entry-data-col">{{description}}</span>
+                    </div>
                 </div>
                 <div class="list-entry-actions">
                     <button name="edit">Edit</button>

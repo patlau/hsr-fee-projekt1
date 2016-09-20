@@ -88,9 +88,55 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.toolbar-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
 
+.toolbar-left {
+    flex-grow: 1;
+}
 
+.toolbar-right {
+    flex-grow: 0;
+}
 
+.list-entry-row-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border: solid 1px gray;
+    margin: 10px;
+}
+
+.list-entry-data-container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    border: solid 1px red;
+    margin: 10px;
+}
+
+.list-entry-data-row {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border: solid 1px rebeccapurple;
+    margin: 10px;
+}
+
+.list-entry-data-col {
+    border: solid 1px green;
+    margin: 10px;
+}
+
+.list-entry-actions {
+    border: solid 1px red;
+    margin: 10px;
+}
 
 
 
