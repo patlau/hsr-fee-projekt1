@@ -6,6 +6,7 @@
 
     var testNotes = [
         {
+            "id": 1,
             "due": "2016-09-25",
             "importance": 2,
             "description": `HTML für die note App erstellen.
@@ -15,6 +16,7 @@ Mehr erstellen für die note App`,
             "done": true
         },
         {
+            "id": 2,
             "due": "2016-09-19",
             "importance": 1,
             "description": `Butter
@@ -24,6 +26,7 @@ Mehl`,
             "done": false
         },
         {
+            "id": 3,
             "due": "2016-09-01",
             "importance": 0,
             "description": "999 99 99",
@@ -34,7 +37,8 @@ Mehl`,
 
     var notes = [];
 
-    function Note(title, description, importance, due, done) {
+    function Note(id, title, description, importance, due, done) {
+        this.id = id;
         this.description = description;
         this.importance = importance;
         this.due = due;
