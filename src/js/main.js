@@ -1,6 +1,8 @@
-/* global Handlebars, $ */
+/*global Handlebars, $*/
+/*exported onEditClicked*/
+/*jshint unused:false*/
 
-(function() {
+var mainModule = (function() {
 
     var templateCache = {};
 
@@ -59,14 +61,14 @@ Mehl`,
      */
     function loadTemplate(jQuerySelector, templateId, context) {
         let template = templateCache[templateId];
-        if(template === undefined) {
+        if (template === undefined) {
             console.log("Compile template " + templateId);
             let source = $('#' + templateId).html();
             template = Handlebars.compile(source);
             templateCache[templateId] = template;
             Handlebars.registerPartial(templateId, template);
         }
-        if(jQuerySelector !== "") {
+        if (jQuerySelector !== "") {
             console.log("Updating template " + templateId);
             var html = template(context);
             $(jQuerySelector).html(html);
@@ -87,10 +89,37 @@ Mehl`,
         }
     }
 
-    $(document).ready(function () {
+    function initHandlebarHelpers() {
+        Handlebars.registerHelper('importance_display', function (count) {
+            let out = "";
+            for (var i = 0; i < count; i++) {
+                out = out + "<i class=\"fa fa-bolt\"></i>";
+            }
+            return new Handlebars.SafeString(out);
+        });
+        Handlebars.registerHelper('edit_button', function (id) {
+            return new Handlebars.SafeString("<button name=\"edit" + id + "\" onclick=\"mainModule.onEditClicked(" + id + ")\">Edit</button>");
+        });
+    }
+
+    function onEditClicked(id) {
+        console.log(id);
+    }
+
+    function initModule() {
+        initHandlebarHelpers();
         loadNotes();
         loadTemplates();
-    });
+    }
+
+    return {
+        initModule: initModule,
+        onEditClicked: onEditClicked
+    };
 
 })();
 
+$(document).ready(function () {
+    console.log("Start Main Module");
+    mainModule.initModule();
+});
