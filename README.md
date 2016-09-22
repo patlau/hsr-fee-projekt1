@@ -4,8 +4,9 @@ Based on [HTML5 Boilerplate](https://html5boilerplate.com)
 
 ## Quick start
 
-1. Run npm build
-2. Open dist/index.html in browser (from WebStorm)
+1. Run npm install
+2. Run npm run-script build
+3. Open dist/index.html in browser (from WebStorm)
 
 ## Source
 

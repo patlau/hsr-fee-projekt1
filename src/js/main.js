@@ -88,6 +88,17 @@ Mehl`,
         }
     }
 
+    function sortNotesBy(prop, asc) {
+        notes = notes.sort(function(a, b) {
+            if (asc) {
+                return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+            } else {
+                return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+            }
+        });
+        // Redisplay List
+    }
+
     function loadTemplates() {
         loadTemplate("", "list-entry-template", {});
         loadTemplate("main", "master-template", {"notes": notes});
@@ -132,12 +143,15 @@ Mehl`,
     function registerEventHandlers() {
         $( "#sortByFinishDate" ).on( "click", function() {
             console.log( "SortByFinishDate was clicked" );
+            sortNotesBy('finishedDate', 1);
         });
         $( "#sortByCreatedDate" ).on( "click", function() {
             console.log( "sortByCreatedDate was clicked" );
+            sortNotesBy('createdDate', 1);
         });
         $( "#sortByImportance" ).on( "click", function() {
             console.log( "sortByImportance was clicked" );
+            sortNotesBy('importance', 1);
         });
         $( "#newNote" ).on( "click", function() {
             console.log( "NewNote was clicked" );
@@ -147,7 +161,6 @@ Mehl`,
         });
         $( "#styleSelection" ).on( "change", function() {
             console.log( "styleSelection was changed" );
-            console.log($(this).val());
             setStyle($(this).val());
         });
     }
@@ -171,4 +184,3 @@ $(document).ready(function () {
     console.log("Start Main Module");
     mainModule.initModule();
 });
-
