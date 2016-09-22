@@ -6,6 +6,8 @@ var mainModule = (function() {
 
     var templateCache = {};
     var selectedStyle = "blackwhite";
+    var sortOrder = 1;
+    var sortBy = null;
 
     var testNotes = [
         {
@@ -56,8 +58,16 @@ Mehl`,
         this.finishedDate = finishedDate;
     }
 
-    Note.prototype.dueDateLabel= function() {
+    Note.prototype.dueDateLabel = function() {
         return this.dueDate;
+    };
+
+    Note.prototype.finishedDateLabel = function() {
+        if(this.finishedDate === null) {
+            return '';
+        } else {
+            return '[' + this.finishedDate + ']';
+        }
     };
 
     function getAbout() {
@@ -88,21 +98,33 @@ Mehl`,
         }
     }
 
-    function sortNotesBy(prop, asc) {
+    function sortNotesBy(prop) {
+
+        // Not perfect but does work sometimes...
+        if(sortBy === prop) {
+            if(sortOrder === 1) {
+                sortOrder = 0;
+            } else {
+                sortOrder = 1;
+            }
+        }
+
         notes = notes.sort(function(a, b) {
-            if (asc) {
+            if (sortOrder) {
                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
             } else {
                 return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
             }
         });
-        // Redisplay List
+
+        sortBy = prop;
     }
 
     function loadTemplates() {
         loadTemplate("", "list-entry-template", {});
-        loadTemplate("main", "master-template", {"notes": notes});
-        loadTemplate(".app-footer", "app-footer-template", getAbout());
+        loadTemplate("main", "master-template", {});
+        loadTemplate("#list", "list-template", {"notes": notes});
+        loadTemplate("footer", "app-footer-template", getAbout());
     }
 
     function loadNotes() {
@@ -111,6 +133,7 @@ Mehl`,
             let note = $.extend(new Note(), item);
             notes.push(note);
         }
+        sortNotesBy('finishedDate');
     }
 
     function initHandlebarHelpers() {
@@ -143,15 +166,18 @@ Mehl`,
     function registerEventHandlers() {
         $( "#sortByFinishDate" ).on( "click", function() {
             console.log( "SortByFinishDate was clicked" );
-            sortNotesBy('finishedDate', 1);
+            sortNotesBy('finishedDate');
+            loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#sortByCreatedDate" ).on( "click", function() {
             console.log( "sortByCreatedDate was clicked" );
-            sortNotesBy('createdDate', 1);
+            sortNotesBy('createdDate');
+            loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#sortByImportance" ).on( "click", function() {
             console.log( "sortByImportance was clicked" );
-            sortNotesBy('importance', 1);
+            sortNotesBy('importance');
+            loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#newNote" ).on( "click", function() {
             console.log( "NewNote was clicked" );
