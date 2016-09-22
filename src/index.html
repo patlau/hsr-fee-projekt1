@@ -75,15 +75,15 @@
                     <div class="list-row">
                         <span class="list-col list-col-1">{{dueDateLabel}}</span>
                         <span class="list-col list-col-2">{{title}}</span>
-                        <span class="list-col list-col-3">{{importance_display importance}}</span>
+                        <span class="list-col list-col-3">{{importance_helper importance}}</span>
                     </div>
                     <div class="list-row">
-                        <span class="list-col list-col-1"><input name="finished" value="{{done}}" type="checkbox"> Erledigt {{finishedDateLabel}}</span>
+                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{finishedDateLabel}}</span>
                         <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
                 <div class="list-actions">
-                    {{edit_button id}}
+                    {{edit_button_helper id}}
                 </div>
             </div>
         </script>

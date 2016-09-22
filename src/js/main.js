@@ -18,7 +18,7 @@ var mainModule = (function() {
 CSS erstellen für die note App. 
 Mehr erstellen für die note App`,
             "title": "CAS FEE Selbststudium / Projekt Aufgaben erledigen",
-            "done": true,
+            "done": 1,
             "createdDate": "2016-01-01",
             "finishedDate": "2016-05-01"
         },
@@ -30,7 +30,7 @@ Mehr erstellen für die note App`,
 Eier
 Mehl`,
             "title": "Einkaufen",
-            "done": false,
+            "done": 0,
             "createdDate": "2016-02-01",
             "finishedDate": null
         },
@@ -40,7 +40,7 @@ Mehl`,
             "importance": 0,
             "description": "999 99 99",
             "title": "Mami anrufen",
-            "done": false,
+            "done": 0,
             "createdDate": "2016-03-01",
             "finishedDate": null
         }
@@ -137,15 +137,22 @@ Mehl`,
     }
 
     function initHandlebarHelpers() {
-        Handlebars.registerHelper('importance_display', function (count) {
+        Handlebars.registerHelper('importance_helper', function (count) {
             let out = "";
             for (var i = 0; i < count; i++) {
                 out = out + "<i class=\"fa fa-bolt\"></i>";
             }
             return new Handlebars.SafeString(out);
         });
-        Handlebars.registerHelper('edit_button', function (id) {
+        Handlebars.registerHelper('edit_button_helper', function (id) {
             return new Handlebars.SafeString("<button name=\"edit" + id + "\" onclick=\"mainModule.onEditClicked(" + id + ")\">Edit</button>");
+        });
+        Handlebars.registerHelper('checked_helper', function (done) {
+            if(done === 1) {
+                return new Handlebars.SafeString("checked");
+            } else {
+                return new Handlebars.SafeString("");
+            }
         });
     }
 
