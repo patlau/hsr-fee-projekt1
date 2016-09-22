@@ -171,3 +171,4 @@ $(document).ready(function () {
     console.log("Start Main Module");
     mainModule.initModule();
 });
+
