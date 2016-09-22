@@ -102,7 +102,7 @@ textarea {
     flex-grow: 0;
 }
 
-.list-entry-row-container {
+.list-row-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -110,7 +110,7 @@ textarea {
     margin: 10px;
 }
 
-.list-entry-data-container {
+.list-container {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -118,22 +118,34 @@ textarea {
     margin: 10px;
 }
 
-.list-entry-data-row {
+.list-row {
     flex-grow: 1;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     border: solid 1px rebeccapurple;
     margin: 10px;
 }
 
-.list-entry-data-col {
+.list-col {
     border: solid 1px green;
     margin: 10px;
 }
 
-.list-entry-actions {
+.list-col-1 {
+    width: 10em;
+}
+
+.list-col-2 {
+    flex-grow: 1;
+}
+
+.list-col-3 {
+
+}
+
+.list-actions {
     border: solid 1px red;
     margin: 10px;
 }

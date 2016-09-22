@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
+        <title>Note App</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -41,7 +41,7 @@
                         <button name="newNote">Create new Note</button>
                     </span>
                     <span class="toolbar-right">
-                        <select name="styleSelection" size="2">
+                        <select name="styleSelection" size="1">
                             <option>BlackWhite-Style</option>
                             <option>Color-Style</option>
                         </select>
@@ -66,20 +66,20 @@
         </script>
 
         <script id="list-entry-template" type="text/x-handlebars-template">
-            <div class="list-entry-row-container">
-                <div class="list-entry-data-container">
-                    <div class="list-entry-data-row">
-                        <span class="list-entry-data-col">{{due}}</span>
-                        <span class="list-entry-data-col">{{title}}</span>
-                        <span class="list-entry-data-col">{{importance}}</span>
+            <div class="list-row-container">
+                <div class="list-container">
+                    <div class="list-row">
+                        <span class="list-col list-col-1">{{due}}</span>
+                        <span class="list-col list-col-2">{{title}}</span>
+                        <span class="list-col list-col-3">{{importance_display importance}}</span>
                     </div>
-                    <div class="list-entry-data-row">
-                        <span class="list-entry-data-col"><input name="finished" value="{{done}}" type="checkbox"> Erledigt</span>
-                        <span class="list-entry-data-col">{{description}}</span>
+                    <div class="list-row">
+                        <span class="list-col list-col-1"><input name="finished" value="{{done}}" type="checkbox"> Erledigt</span>
+                        <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
-                <div class="list-entry-actions">
-                    <button name="edit">Edit</button>
+                <div class="list-actions">
+                    {{edit_button id}}
                 </div>
             </div>
         </script>

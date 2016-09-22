@@ -4,12 +4,14 @@ Based on [HTML5 Boilerplate](https://html5boilerplate.com)
 
 ## Quick start
 
-Choose one of the following options:
-
 1. Run npm build
-2. Open dist/index.html in browser
+2. Open dist/index.html in browser (from WebStorm)
 
-## Features
+## Source
+
+- HTML: src/index.html
+- CSS: src/css/main.css
+- JS: src/js/main.css
 
 ## Documentation
 
