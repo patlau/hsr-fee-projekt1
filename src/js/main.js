@@ -5,47 +5,60 @@
 var mainModule = (function() {
 
     var templateCache = {};
+    var selectedStyle = "blackwhite";
 
     var testNotes = [
         {
             "id": 1,
-            "due": "2016-09-25",
+            "dueDate": "2016-09-25",
             "importance": 2,
             "description": `HTML für die note App erstellen.
 CSS erstellen für die note App. 
 Mehr erstellen für die note App`,
             "title": "CAS FEE Selbststudium / Projekt Aufgaben erledigen",
-            "done": true
+            "done": true,
+            "createdDate": "2016-01-01",
+            "finishedDate": "2016-05-01"
         },
         {
             "id": 2,
-            "due": "2016-09-19",
+            "dueDate": "2016-09-19",
             "importance": 1,
             "description": `Butter
 Eier
 Mehl`,
             "title": "Einkaufen",
-            "done": false
+            "done": false,
+            "createdDate": "2016-02-01",
+            "finishedDate": null
         },
         {
             "id": 3,
-            "due": "2016-09-01",
+            "dueDate": "2016-09-01",
             "importance": 0,
             "description": "999 99 99",
             "title": "Mami anrufen",
-            "done": false
+            "done": false,
+            "createdDate": "2016-03-01",
+            "finishedDate": null
         }
     ];
 
     var notes = [];
 
-    function Note(id, title, description, importance, due, done) {
+    function Note(id, title, description, importance, dueDate, done, createdDate, finishedDate) {
         this.id = id;
         this.description = description;
         this.importance = importance;
-        this.due = due;
+        this.dueDate = dueDate;
         this.done = done;
+        this.createdDate = createdDate;
+        this.finishedDate = finishedDate;
     }
+
+    Note.prototype.dueDateLabel= function() {
+        return this.dueDate;
+    };
 
     function getAbout() {
         return {
@@ -102,14 +115,49 @@ Mehl`,
         });
     }
 
+    function setStyle(newStyle) {
+        $("button").each(function() {
+            console.log($(this));
+            console.log(" Remove: " + selectedStyle + " Add: " + newStyle);
+            $(this).removeClass(selectedStyle);
+            $(this).addClass(newStyle);
+        });
+        selectedStyle = newStyle;
+    }
+
     function onEditClicked(id) {
         console.log(id);
+    }
+
+    function registerEventHandlers() {
+        $( "#sortByFinishDate" ).on( "click", function() {
+            console.log( "SortByFinishDate was clicked" );
+        });
+        $( "#sortByCreatedDate" ).on( "click", function() {
+            console.log( "sortByCreatedDate was clicked" );
+        });
+        $( "#sortByImportance" ).on( "click", function() {
+            console.log( "sortByImportance was clicked" );
+        });
+        $( "#newNote" ).on( "click", function() {
+            console.log( "NewNote was clicked" );
+        });
+        $( "#showFinished" ).on( "click", function() {
+            console.log( "ShowFinished was clicked" );
+        });
+        $( "#styleSelection" ).on( "change", function() {
+            console.log( "styleSelection was changed" );
+            console.log($(this).val());
+            setStyle($(this).val());
+        });
     }
 
     function initModule() {
         initHandlebarHelpers();
         loadNotes();
         loadTemplates();
+        registerEventHandlers();
+        setStyle("blackwhite");
     }
 
     return {

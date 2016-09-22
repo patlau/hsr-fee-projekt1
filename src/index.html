@@ -38,23 +38,23 @@
             <div>
                 <p class="toolbar-container">
                     <span class="toolbar-left">
-                        <button name="newNote">Create new Note</button>
+                        <button id="newNote">Create new Note</button>
                     </span>
                     <span class="toolbar-right">
-                        <select name="styleSelection" size="1">
-                            <option>BlackWhite-Style</option>
-                            <option>Color-Style</option>
+                        <select id="styleSelection" size="1">
+                            <option value="blackwhite">BlackWhite-Style</option>
+                            <option value="color">Color-Style</option>
                         </select>
                     </span>
                 </p>
                 <p class="list-header-container toolbar-container">
                     <span class="list-sort-order toolbar-left">
-                        <button name="SortByFinishDate">By finish Date</button>
-                        <button name="SortByCreatedDate">By created Date</button>
-                        <button name="SortByImportance">By Importance</button>
+                        <button id="sortByFinishDate">By finish Date</button>
+                        <button id="sortByCreatedDate">By created Date</button>
+                        <button id="sortByImportance">By Importance</button>
                     </span>
                     <span class="toolbar-right">
-                        <button name="ShowFinished">Show finished</button>
+                        <button id="showFinished">Show finished</button>
                     </span>
                 </p>
                 <p id="list-container">
@@ -69,7 +69,7 @@
             <div class="list-row-container">
                 <div class="list-container">
                     <div class="list-row">
-                        <span class="list-col list-col-1">{{due}}</span>
+                        <span class="list-col list-col-1">{{dueDateLabel}}</span>
                         <span class="list-col list-col-2">{{title}}</span>
                         <span class="list-col list-col-3">{{importance_display importance}}</span>
                     </div>

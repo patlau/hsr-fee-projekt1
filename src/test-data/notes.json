@@ -1,20 +1,20 @@
 [
     {
-        "due": "2016-09-25",
+        "dueDate": "2016-09-25",
         "importance": 2,
         "description": "HTML für die note App erstellen.<br>CSS erstellen für die note App. <br>Mehr erstellen für die note App",
         "title": "CAS FEE Selbststudium / Projekt Aufgaben erledigen",
         "done": true
     },
     {
-        "due": "2016-09-19",
+        "dueDate": "2016-09-19",
         "importance": 1,
         "description": "Butter<br>Eier<br>Mehl<br>",
         "title": "Einkaufen",
         "done": false
     },
     {
-        "due": "2016-09-01",
+        "dueDate": "2016-09-01",
         "importance": 0,
         "description": "999 99 99",
         "title": "Mami anrufen",

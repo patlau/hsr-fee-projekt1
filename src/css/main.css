@@ -11,7 +11,6 @@
 html {
     color: #222;
     font-size: 1em;
-    line-height: 1.4;
 }
 
 /*
@@ -150,9 +149,17 @@ textarea {
     margin: 10px;
 }
 
+button.blackwhite {
+    background-color: #e7e7e7;
+    color: black;
+/*    display: inline-block; */
+/*    font-size: 16px; */
+}
 
-
-
+button.color {
+    background-color: #008CBA; /* Blue */
+    color: white;
+}
 
 
 
