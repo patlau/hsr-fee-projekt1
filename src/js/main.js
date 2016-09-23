@@ -4,12 +4,24 @@
 
 var mainModule = (function() {
 
-    var templateCache = {};
-    var selectedStyle = "blackwhite";
-    var sortOrder = 1;
-    var sortBy = null;
+    /* ==========================================================================
+     Variables
+     ========================================================================== */
 
-    var testNotes = [
+    var templateCache = {}; // Handlebars compiled template cache
+    var selectedStyle = "blackwhite"; // Default style
+
+    var sortOrder = 1; // Default Note sort order
+    var sortBy = null; // Default Note sort by
+    var showFinished = 0; // Do not show done Notes by default
+
+    var about = {
+        project: 'HSR FEE Projekt 1',
+        student: 'Patrick Lauper'
+    };
+
+    /* This will later be loaded from storage */
+    var notesJson = [
         {
             "id": 1,
             "dueDate": "2016-09-25",
@@ -46,7 +58,12 @@ Mehl`,
         }
     ];
 
-    var notes = [];
+    var allNotes = []; // All notes
+    var notes = []; // Filtered notes
+
+    /* ==========================================================================
+     Note class / Just to try out ...
+     ========================================================================== */
 
     function Note(id, title, description, importance, dueDate, done, createdDate, finishedDate) {
         this.id = id;
@@ -70,12 +87,10 @@ Mehl`,
         }
     };
 
-    function getAbout() {
-        return {
-            project: 'HSR FEE Projekt 1',
-            student: 'Patrick Lauper'
-        };
-    }
+
+    /* ==========================================================================
+     Handlebar
+     ========================================================================== */
 
     /*
      * Load Handlebars template and update DOM if a selector is given.
@@ -97,6 +112,47 @@ Mehl`,
             $(jQuerySelector).html(html);
         }
     }
+
+    function loadTemplates() {
+        loadTemplate("", "list-entry-template", {});
+        loadTemplate("main", "master-template", {});
+        loadTemplate("#list", "list-template", {"notes": notes});
+        loadTemplate("footer", "app-footer-template", about);
+    }
+
+    function initHandlebarHelpers() {
+        Handlebars.registerHelper('importance_helper', function (count) {
+            let out = "";
+            for (var i = 0; i < count; i++) {
+                out = out + "<i class=\"fa fa-bolt\"></i>";
+            }
+            return new Handlebars.SafeString(out);
+        });
+        Handlebars.registerHelper('edit_button_helper', function (id) {
+            return new Handlebars.SafeString("<button name=\"edit" + id + "\" onclick=\"mainModule.onEditClicked(" + id + ")\">Edit</button>");
+        });
+        Handlebars.registerHelper('checked_helper', function (done) {
+            if(done === 1) {
+                return new Handlebars.SafeString("checked");
+            } else {
+                return new Handlebars.SafeString("");
+            }
+        });
+        Handlebars.registerHelper('date_helper', function(dueDate) {
+            let due = new Date(dueDate);
+            console.log(due);
+            let now = Date.now();
+            if(now === due) {
+                return "[Today]";
+            } else {
+                return due.toLocaleDateString();
+            }
+        });
+    }
+
+    /* ==========================================================================
+     Note loading, sorting and filter
+     ========================================================================== */
 
     function sortNotesBy(prop) {
 
@@ -120,41 +176,29 @@ Mehl`,
         sortBy = prop;
     }
 
-    function loadTemplates() {
-        loadTemplate("", "list-entry-template", {});
-        loadTemplate("main", "master-template", {});
-        loadTemplate("#list", "list-template", {"notes": notes});
-        loadTemplate("footer", "app-footer-template", getAbout());
+    function filterNotes() {
+        if(showFinished === 1) {
+            notes = allNotes;
+        } else {
+            notes = allNotes.filter(function(each) {
+                return each.done === 0;
+            });
+        }
     }
 
     function loadNotes() {
-        let data = testNotes;
+        let data = notesJson;
         for (let item of data) {
             let note = $.extend(new Note(), item);
-            notes.push(note);
+            allNotes.push(note);
         }
-        sortNotesBy('finishedDate');
+        filterNotes();
+        sortNotesBy("finishedDate");
     }
 
-    function initHandlebarHelpers() {
-        Handlebars.registerHelper('importance_helper', function (count) {
-            let out = "";
-            for (var i = 0; i < count; i++) {
-                out = out + "<i class=\"fa fa-bolt\"></i>";
-            }
-            return new Handlebars.SafeString(out);
-        });
-        Handlebars.registerHelper('edit_button_helper', function (id) {
-            return new Handlebars.SafeString("<button name=\"edit" + id + "\" onclick=\"mainModule.onEditClicked(" + id + ")\">Edit</button>");
-        });
-        Handlebars.registerHelper('checked_helper', function (done) {
-            if(done === 1) {
-                return new Handlebars.SafeString("checked");
-            } else {
-                return new Handlebars.SafeString("");
-            }
-        });
-    }
+    /* ==========================================================================
+     Styling
+     ========================================================================== */
 
     function setStyle(newStyle) {
         $("button").each(function() {
@@ -165,6 +209,10 @@ Mehl`,
         });
         selectedStyle = newStyle;
     }
+
+    /* ==========================================================================
+     Events
+     ========================================================================== */
 
     function onEditClicked(id) {
         console.log(id);
@@ -191,12 +239,20 @@ Mehl`,
         });
         $( "#showFinished" ).on( "click", function() {
             console.log( "ShowFinished was clicked" );
+            showFinished = showFinished === 1 ? 0 : 1;
+            $(this).toggleClass("down");
+            filterNotes();
+            loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#styleSelection" ).on( "change", function() {
             console.log( "styleSelection was changed" );
             setStyle($(this).val());
         });
     }
+
+    /* ==========================================================================
+     Module initializing
+     ========================================================================== */
 
     function initModule() {
         initHandlebarHelpers();

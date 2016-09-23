@@ -73,12 +73,12 @@
             <div class="list-row-container">
                 <div class="list-container">
                     <div class="list-row">
-                        <span class="list-col list-col-1">{{dueDateLabel}}</span>
+                        <span class="list-col list-col-1">{{date_helper dueDate}}</span>
                         <span class="list-col list-col-2">{{title}}</span>
                         <span class="list-col list-col-3">{{importance_helper importance}}</span>
                     </div>
                     <div class="list-row">
-                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{finishedDateLabel}}</span>
+                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{date_helper finishedDate}}</span>
                         <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
