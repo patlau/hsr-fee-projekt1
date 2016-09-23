@@ -246,7 +246,8 @@ Mehl`,
             //console.log( "styleSelection was changed" );
             setStyle($(this).val());
         });
-        $('#list-container').on('click', '.edit', function() {
+        // Register event handler must be called always after setting list
+        $('#list').on('click', '.edit', function() {
             let noteId = $(this).closest(".list-row-container").data().noteId;
             console.log("Edit: " + noteId);
         });
