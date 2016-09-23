@@ -100,14 +100,14 @@ Mehl`,
     function loadTemplate(jQuerySelector, templateId, context) {
         let template = templateCache[templateId];
         if (template === undefined) {
-            console.log("Compile template " + templateId);
+            //console.log("Compile template " + templateId);
             let source = $('#' + templateId).html();
             template = Handlebars.compile(source);
             templateCache[templateId] = template;
             Handlebars.registerPartial(templateId, template);
         }
         if (jQuerySelector !== "") {
-            console.log("Updating template " + templateId);
+            //console.log("Updating template " + templateId);
             var html = template(context);
             $(jQuerySelector).html(html);
         }
@@ -128,9 +128,6 @@ Mehl`,
             }
             return new Handlebars.SafeString(out);
         });
-        Handlebars.registerHelper('edit_button_helper', function (id) {
-            return new Handlebars.SafeString("<button name=\"edit" + id + "\" onclick=\"mainModule.onEditClicked(" + id + ")\">Edit</button>");
-        });
         Handlebars.registerHelper('checked_helper', function (done) {
             if(done === 1) {
                 return new Handlebars.SafeString("checked");
@@ -140,7 +137,7 @@ Mehl`,
         });
         Handlebars.registerHelper('date_helper', function(dueDate) {
             let due = new Date(dueDate);
-            console.log(due);
+            //console.log(due);
             let now = Date.now();
             if(now === due) {
                 return "[Today]";
@@ -186,6 +183,7 @@ Mehl`,
         }
     }
 
+    // Load notes, convert to Note objects and apply filter and sort order
     function loadNotes() {
         let data = notesJson;
         for (let item of data) {
@@ -202,8 +200,8 @@ Mehl`,
 
     function setStyle(newStyle) {
         $("button").each(function() {
-            console.log($(this));
-            console.log(" Remove: " + selectedStyle + " Add: " + newStyle);
+            //console.log($(this));
+            //console.log(" Remove: " + selectedStyle + " Add: " + newStyle);
             $(this).removeClass(selectedStyle);
             $(this).addClass(newStyle);
         });
@@ -215,38 +213,42 @@ Mehl`,
      ========================================================================== */
 
     function onEditClicked(id) {
-        console.log(id);
+        //console.log(id);
     }
 
     function registerEventHandlers() {
         $( "#sortByFinishDate" ).on( "click", function() {
-            console.log( "SortByFinishDate was clicked" );
+            //console.log( "SortByFinishDate was clicked" );
             sortNotesBy('finishedDate');
             loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#sortByCreatedDate" ).on( "click", function() {
-            console.log( "sortByCreatedDate was clicked" );
+            //console.log( "sortByCreatedDate was clicked" );
             sortNotesBy('createdDate');
             loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#sortByImportance" ).on( "click", function() {
-            console.log( "sortByImportance was clicked" );
+            //console.log( "sortByImportance was clicked" );
             sortNotesBy('importance');
             loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#newNote" ).on( "click", function() {
-            console.log( "NewNote was clicked" );
+            //console.log( "NewNote was clicked" );
         });
         $( "#showFinished" ).on( "click", function() {
-            console.log( "ShowFinished was clicked" );
+            //console.log( "ShowFinished was clicked" );
             showFinished = showFinished === 1 ? 0 : 1;
             $(this).toggleClass("down");
             filterNotes();
             loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#styleSelection" ).on( "change", function() {
-            console.log( "styleSelection was changed" );
+            //console.log( "styleSelection was changed" );
             setStyle($(this).val());
+        });
+        $('#list-container').on('click', '.edit', function() {
+            let noteId = $(this).closest(".list-row-container").data().noteId;
+            console.log("Edit: " + noteId);
         });
     }
 

@@ -21,15 +21,16 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <header></header>
-        <main>
-            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-            <span>Loading...</span>
-        </main>
-        <footer></footer>
+            <header></header>
+            <main>
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span>Loading...</span>
+            </main>
+            <footer></footer>
 
         <script id="app-footer-template" type="text/x-handlebars-template">
             <div>
+                <hr>
                 {{project}} {{student}}
             </div>
         </script>
@@ -62,16 +63,16 @@
         </script>
 
         <script id="list-template" type="text/x-handlebars-template">
-            <p id="list-container">
+            <div id="list-container">
                 {{#each notes}}
                 {{> list-entry-template this }}
                 {{/each}}
-            </p>
+            </div>
         </script>
 
         <script id="list-entry-template" type="text/x-handlebars-template">
-            <div class="list-row-container">
-                <div class="list-container">
+            <div class="list-row-container" data-note-id="{{id}}">
+                <div class="list-col-data">
                     <div class="list-row">
                         <span class="list-col list-col-1">{{date_helper dueDate}}</span>
                         <span class="list-col list-col-2">{{title}}</span>
@@ -82,8 +83,8 @@
                         <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
-                <div class="list-actions">
-                    {{edit_button_helper id}}
+                <div class="list-col-actions">
+                    <button class="edit">Edit</button>
                 </div>
             </div>
         </script>
