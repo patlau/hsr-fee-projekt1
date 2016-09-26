@@ -11,4 +11,9 @@ before_script:
 script:
   - gulp build
 after_success:
+  - ./travis.sh
   - gulp deploy
+env:
+  global:
+  - ENCRYPTION_LABEL: "b49a64915829"
+  - COMMIT_AUTHOR_EMAIL: "plauper@yahoo.com"
