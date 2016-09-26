@@ -13,15 +13,6 @@ var expectedFilesInArchiveDir = [
 
 var expectedFilesInDistDir = [
 
-    '.editorconfig',
-    '.gitattributes',
-    '.gitignore',
-    '.htaccess',
-    '404.html',
-    'apple-touch-icon.png',
-    'browserconfig.xml',
-    'crossdomain.xml',
-
     'css/', // for directories, a `/` character
             // should be included at the end
         'css/main.css',
@@ -54,7 +45,7 @@ var expectedFilesInDistDir = [
         'js/plugins.js',
         'js/vendor/',
             'js/vendor/jquery-' + pkg.devDependencies.jquery + '.min.js',
-            'js/vendor/modernizr-2.8.3.min.js',
+            'js/vendor/modernizr.min.js',
             'js/vendor/handlebars.min.js',
 
     'LICENSE.txt',

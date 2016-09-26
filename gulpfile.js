@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
+var ghPages = require('gulp-gh-pages');
 
 // Load all gulp plugins automatically
 // and attach them to the `plugins` object
@@ -66,7 +67,6 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('copy', [
-    'copy:.htaccess',
     'copy:index.html',
     'copy:jquery',
     'copy:license',
@@ -200,4 +200,9 @@ gulp.task('listen', function () {
 // Compile files and generate docs when something changes
 gulp.task('watch', function() {
     gulp.watch(dirs.src + '/**/*.*', ['default']);
+});
+
+gulp.task('deploy', function() {
+    return gulp.src('./dist/**/*')
+        .pipe(ghPages());
 });

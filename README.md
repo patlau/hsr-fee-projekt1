@@ -2,11 +2,20 @@
 
 Based on [HTML5 Boilerplate](https://html5boilerplate.com)
 
-## Quick start
+Go to https://patlau.github.io/hsr-fee-projekt1/ to try out.
 
-1. Run npm install
-2. Run npm run-script build
-3. Open dist/index.html in browser (from WebStorm)
+Or open dist/index.html in browser from WebStorm after building (see below). 
+
+## Build instructions
+
+1. Run "npm install"
+2. Run "npm run-script build"
+
+Deploying to Github Pages:
+
+1. Build dist
+2. Run "npm run-script deploy"
+
 
 ## Source
 

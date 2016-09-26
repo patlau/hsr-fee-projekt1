@@ -22,7 +22,9 @@
     "normalize.css": "3.0.3",
     "run-sequence": "^1.0.2",
     "handlebars": "4.0.5",
-    "font-awesome": "4.6.3"
+    "font-awesome": "4.6.3",
+    "modernizr": "^3.3.1",
+    "gulp-gh-pages": "0.5.4"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -45,7 +47,8 @@
   "scripts": {
     "build": "gulp build",
     "test": "gulp archive && mocha --reporter spec --timeout 5000",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "deploy": "gulp deploy"
   },
   "version": "5.3.0"
 }
