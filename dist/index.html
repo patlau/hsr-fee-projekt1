@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Note App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header></header>
+        <main>
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span>Loading...</span>
+        </main>
+        <footer></footer>
+
+        <script id="app-footer-template" type="text/x-handlebars-template">
+            <div>
+                <hr>
+                {{project}} {{student}}
+            </div>
+        </script>
+
+        <script id="master-template" type="text/x-handlebars-template">
+            <div id="header">
+                <p class="toolbar-container">
+                    <span class="toolbar-left">
+                        <button id="newNote">Create new Note</button>
+                    </span>
+                    <span class="toolbar-right">
+                        <select id="styleSelection" size="1">
+                            <option value="blackwhite">BlackWhite-Style</option>
+                            <option value="color">Color-Style</option>
+                        </select>
+                    </span>
+                </p>
+                <p class="list-header-container toolbar-container">
+                    <span class="list-sort-order toolbar-left">
+                        <button id="sortByFinishDate">By finish Date</button>
+                        <button id="sortByCreatedDate">By created Date</button>
+                        <button id="sortByImportance">By Importance</button>
+                    </span>
+                    <span class="toolbar-right">
+                        <button id="showFinished">Show finished</button>
+                    </span>
+                </p>
+            </div>
+            <div id="list"></div>
+        </script>
+
+        <script id="list-template" type="text/x-handlebars-template">
+            <div id="list-container">
+                {{#each notes}}
+                {{> list-entry-template this }}
+                {{/each}}
+            </div>
+        </script>
+
+        <script id="list-entry-template" type="text/x-handlebars-template">
+            <div class="list-row-container" data-note-id="{{id}}">
+                <div class="list-col-data">
+                    <div class="list-row">
+                        <span class="list-col list-col-1">{{date_helper dueDate}}</span>
+                        <span class="list-col list-col-2">{{title}}</span>
+                        <span class="list-col list-col-3">{{importance_helper importance}}</span>
+                    </div>
+                    <div class="list-row">
+                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{date_helper finishedDate}}</span>
+                        <span class="list-col list-col-2">{{description}}</span>
+                    </div>
+                </div>
+                <div class="list-col-actions">
+                    <button class="edit">Edit</button>
+                </div>
+            </div>
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.1.0.min.js"><\/script>')</script>
+        <script src="js/vendor/handlebars.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+    </body>
+</html>
