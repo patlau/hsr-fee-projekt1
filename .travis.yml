@@ -7,7 +7,7 @@ node_js:
   - "6"
 before_script:
   - npm install -g gulp
-  - gulp test
+  - npm test
 script:
   - gulp build
 after_success:

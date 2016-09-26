@@ -2,9 +2,9 @@
 
 Based on [HTML5 Boilerplate](https://html5boilerplate.com)
 
-Go to https://patlau.github.io/hsr-fee-projekt1/ to try out.
+**Go to https://patlau.github.io/hsr-fee-projekt1/ to try out.**
 
-Or open dist/index.html in browser from WebStorm after building (see below). 
+Travis Build: https://travis-ci.org/patlau/hsr-fee-projekt1
 
 ## Build instructions
 
@@ -13,9 +13,13 @@ Or open dist/index.html in browser from WebStorm after building (see below).
 
 Deploying to Github Pages:
 
-1. Build dist
+1. Run Build
 2. Run "npm run-script deploy"
 
+Test with WebStorm:
+
+1. Run Build
+2. Open dist/index.html in browser from WebStorm
 
 ## Source
 
