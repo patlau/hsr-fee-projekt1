@@ -6,12 +6,15 @@ language: node_js
 node_js:
   - "6"
 before_script:
+  - git config --global user.email "plauper@yahoo.com"
+  - git config --global user.name "Patrick Lauper"
+  - chmod u+rx ./travis.sh
+  - ./travis.sh
   - npm install -g gulp
   - npm test
 script:
   - gulp build
 after_success:
-  - ./travis.sh
   - gulp deploy
 env:
   global:
