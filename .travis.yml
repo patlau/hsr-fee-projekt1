@@ -13,11 +13,7 @@ script:
 after_success:
   - chmod u+rx ./travis.sh
   - ./travis.sh
-  - git config --global user.email "plauper@yahoo.com"
-  - git config --global user.name "Patrick Lauper"
-  - gulp deploy
 env:
   global:
   - ENCRYPTION_LABEL: "b49a64915829"
-  - GIT_COMMITTER_EMAIL: "plauper@yahoo.com"
-  - GIT_COMMITTER_NAME: "Patrick Lauper"
+  - COMMIT_AUTHOR_EMAIL: "plauper@yahoo.com"
