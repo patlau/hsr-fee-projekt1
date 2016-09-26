@@ -6,7 +6,7 @@ TARGET_BRANCH="gh-pages"
 
 function doCompile {
   echo "Copying dist to out..."
-  cp -rf dist out
+  cp -rf dist/* out
   ls -l out
 }
 
@@ -48,6 +48,7 @@ git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
+git status
 git add --all .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 
