@@ -42,16 +42,13 @@ var expectedFilesInDistDir = [
 
     'js/',
         'js/main.js',
-        'js/plugins.js',
         'js/vendor/',
             'js/vendor/jquery-' + pkg.devDependencies.jquery + '.min.js',
-            'js/vendor/modernizr.min.js',
             'js/vendor/handlebars.min.js',
 
     'LICENSE.txt',
     'robots.txt',
-    'tile-wide.png',
-    'tile.png'
+    '.gitignore',
 
 ];
 
