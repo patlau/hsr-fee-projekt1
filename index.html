@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -31,7 +30,7 @@
         <script id="app-footer-template" type="text/x-handlebars-template">
             <div>
                 <hr>
-                {{project}} {{student}}
+                {{project}} | {{committer}} | Build {{build}} | {{branch}} | {{commit}} | {{datetime}}
             </div>
         </script>
 
@@ -74,12 +73,12 @@
             <div class="list-row-container" data-note-id="{{id}}">
                 <div class="list-col-data">
                     <div class="list-row">
-                        <span class="list-col list-col-1">{{date_helper dueDate}}</span>
+                        <span class="list-col list-col-1"><time datetime="{{dueDate}}">{{date_helper dueDate}}</time></span>
                         <span class="list-col list-col-2">{{title}}</span>
                         <span class="list-col list-col-3">{{importance_helper importance}}</span>
                     </div>
                     <div class="list-row">
-                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{date_helper finishedDate}}</span>
+                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt <time datetime="{{dueDate}}">{{date_helper finishedDate}}</time></span>
                         <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
@@ -92,7 +91,7 @@
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.1.0.min.js"><\/script>')</script>
         <script src="js/vendor/handlebars.min.js"></script>
-        <script src="js/plugins.js"></script>
+        <script src="js/about.js"></script>
         <script src="js/main.js"></script>
 
     </body>

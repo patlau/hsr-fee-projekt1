@@ -1,4 +1,4 @@
-/*global Handlebars, $*/
+/*global Handlebars, $, aboutModule */
 /*exported onEditClicked*/
 /*jshint unused:false*/
 
@@ -14,11 +14,6 @@ var mainModule = (function() {
     var sortOrder = 1; // Default Note sort order
     var sortBy = null; // Default Note sort by
     var showFinished = 0; // Do not show done Notes by default
-
-    var about = {
-        project: 'HSR FEE Projekt 1',
-        student: 'Patrick Lauper'
-    };
 
     /* This will later be loaded from storage */
     var notesJson = [
@@ -75,19 +70,6 @@ Mehl`,
         this.finishedDate = finishedDate;
     }
 
-    Note.prototype.dueDateLabel = function() {
-        return this.dueDate;
-    };
-
-    Note.prototype.finishedDateLabel = function() {
-        if(this.finishedDate === null) {
-            return '';
-        } else {
-            return '[' + this.finishedDate + ']';
-        }
-    };
-
-
     /* ==========================================================================
      Handlebar
      ========================================================================== */
@@ -117,7 +99,7 @@ Mehl`,
         loadTemplate("", "list-entry-template", {});
         loadTemplate("main", "master-template", {});
         loadTemplate("#list", "list-template", {"notes": notes});
-        loadTemplate("footer", "app-footer-template", about);
+        loadTemplate("footer", "app-footer-template", aboutModule.about);
     }
 
     function initHandlebarHelpers() {
@@ -135,14 +117,16 @@ Mehl`,
                 return new Handlebars.SafeString("");
             }
         });
-        Handlebars.registerHelper('date_helper', function(dueDate) {
-            let due = new Date(dueDate);
-            //console.log(due);
+        Handlebars.registerHelper('date_helper', function(dateStr) {
+            if(dateStr === null || dateStr === undefined) {
+                return '';
+            }
+            let date = new Date(dateStr);
             let now = Date.now();
-            if(now === due) {
+            if(now.valueOf() === date.valueOf()) {
                 return "[Today]";
             } else {
-                return due.toLocaleDateString();
+                return date.toLocaleDateString();
             }
         });
     }
@@ -194,17 +178,28 @@ Mehl`,
         sortNotesBy("finishedDate");
     }
 
+    function addNote() {
+        let note = new Note(allNotes.length + 1, 'Neue Notiz', 'Beschreibung', 0, new Date().toISOString(), 0, new Date().toISOString(), null);
+        console.log(note);
+        allNotes.push(note);
+    }
+
     /* ==========================================================================
      Styling
      ========================================================================== */
 
     function setStyle(newStyle) {
-        $("button").each(function() {
+        /*$("button").each(function() {
             //console.log($(this));
             //console.log(" Remove: " + selectedStyle + " Add: " + newStyle);
             $(this).removeClass(selectedStyle);
             $(this).addClass(newStyle);
         });
+        */
+        $("body")
+            .removeClass(selectedStyle)
+            .addClass(newStyle);
+
         selectedStyle = newStyle;
     }
 
@@ -234,6 +229,10 @@ Mehl`,
         });
         $( "#newNote" ).on( "click", function() {
             //console.log( "NewNote was clicked" );
+            addNote();
+            filterNotes();
+            sortNotesBy(sortBy);
+            loadTemplate("#list", "list-template", {"notes": notes});
         });
         $( "#showFinished" ).on( "click", function() {
             //console.log( "ShowFinished was clicked" );
