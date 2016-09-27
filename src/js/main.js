@@ -1,4 +1,4 @@
-/*global Handlebars, $*/
+/*global Handlebars, $, aboutModule */
 /*exported onEditClicked*/
 /*jshint unused:false*/
 
@@ -14,11 +14,6 @@ var mainModule = (function() {
     var sortOrder = 1; // Default Note sort order
     var sortBy = null; // Default Note sort by
     var showFinished = 0; // Do not show done Notes by default
-
-    var about = {
-        project: 'HSR FEE Projekt 1',
-        student: 'Patrick Lauper'
-    };
 
     /* This will later be loaded from storage */
     var notesJson = [
@@ -117,7 +112,7 @@ Mehl`,
         loadTemplate("", "list-entry-template", {});
         loadTemplate("main", "master-template", {});
         loadTemplate("#list", "list-template", {"notes": notes});
-        loadTemplate("footer", "app-footer-template", about);
+        loadTemplate("footer", "app-footer-template", aboutModule.about);
     }
 
     function initHandlebarHelpers() {

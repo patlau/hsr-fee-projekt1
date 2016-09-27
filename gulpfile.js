@@ -2,6 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var ghPages = require('gulp-gh-pages');
+var replace = require('gulp-replace-task');
+var args = require('yargs').argv;
 
 // Load all gulp plugins automatically
 // and attach them to the `plugins` object
@@ -75,7 +77,8 @@ gulp.task('copy', [
     'copy:normalize',
     'copy:handlebars',
     'copy:font-awesome.css',
-    'copy:font-awsome.fonts'
+    'copy:font-awsome.fonts',
+    'copy:about'
 ]);
 
 gulp.task('copy:.htaccess', function () {
@@ -140,7 +143,8 @@ gulp.task('copy:misc', function () {
         // Exclude the following files
         // (other tasks will handle the copying of these files)
         '!' + dirs.src + '/css/main.css',
-        '!' + dirs.src + '/index.html'
+        '!' + dirs.src + '/index.html',
+        '!' + dirs.src + '/js/about.js'
 
     ], {
 
@@ -164,6 +168,32 @@ gulp.task('lint:js', function () {
       .pipe(plugins.jshint())
       .pipe(plugins.jshint.reporter('jshint-stylish'))
       .pipe(plugins.jshint.reporter('fail'));
+});
+
+gulp.task('copy:about', function () {
+    // Get the environment from the command line
+    var build = args.TRAVIS_BUILD_NUMBER || 'localbuild';
+    var commit = args.TRAVIS_COMMIT || '';
+    var branch = args.TRAVIS_BRANCH || 'master';
+    var project = args.TRAVIS_REPO_SLUG || 'projekt1';
+    var committer = args.COMMIT_AUTHOR_EMAIL || 'plauper@yahoo.com';
+    var datetime = new Date().toISOString();
+
+    // Read the settings from the right file
+
+    // Replace each placeholder with the correct value for the variable.
+    gulp.src('src/js/about.js')
+        .pipe(replace({
+            patterns: [
+                { match: 'BUILD', replacement: build },
+                { match: 'COMMIT', replacement: commit },
+                { match: 'BRANCH', replacement: branch },
+                { match: 'PROJECT', replacement: project },
+                { match: 'COMMITTER', replacement: committer },
+                { match: 'DATETIME', replacement: datetime }
+            ]
+        }))
+        .pipe(gulp.dest('dist/js/'));
 });
 
 
