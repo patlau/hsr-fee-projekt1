@@ -40,21 +40,6 @@ hr {
 }
 
 /*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-    vertical-align: middle;
-}
-
-/*
  * Remove default fieldset styles.
  */
 
@@ -82,8 +67,6 @@ textarea {
     color: #000;
     padding: 0.2em 0;
 }
-
-
 
 
 /* ==========================================================================
@@ -117,8 +100,8 @@ textarea {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-/*    border: solid 1px red; */
-/*    margin: 10px; */
+    /*    border: solid 1px red; */
+    /*    margin: 10px; */
 }
 
 .list-row {
@@ -127,13 +110,13 @@ textarea {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-/*    border: solid 1px rebeccapurple; */
-/*    margin: 10px; */
+    /*    border: solid 1px rebeccapurple; */
+    /*    margin: 10px; */
 }
 
 .list-col {
-/*    border: solid 1px green; */
-/*    margin: 2em; */
+    /*    border: solid 1px green; */
+    /*    margin: 2em; */
 }
 
 .list-col-1 {
@@ -150,8 +133,8 @@ textarea {
 }
 
 .list-col-actions {
-/*    border: solid 1px red; */
-/*    margin: 10px; */
+    /*    border: solid 1px red; */
+    /*    margin: 10px; */
     padding: 10px;
 }
 
@@ -191,19 +174,25 @@ footer {
  * STYLES
  */
 
+/*
 button.blackwhite {
     background-color: #e7e7e7;
     color: black;
-/*    display: inline-block; */
-/*    font-size: 16px; */
 }
 
 button.color {
-    background-color: #008CBA; /* Blue */
+    background-color: #008CBA;
     color: white;
 }
+*/
 
+.blackwhite {
+    background-color: white;
+}
 
+.color {
+    background-color: #b3d4fc;
+}
 
 
 /* ==========================================================================

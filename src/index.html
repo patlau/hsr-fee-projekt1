@@ -73,12 +73,12 @@
             <div class="list-row-container" data-note-id="{{id}}">
                 <div class="list-col-data">
                     <div class="list-row">
-                        <span class="list-col list-col-1">{{date_helper dueDate}}</span>
+                        <span class="list-col list-col-1"><time datetime="{{dueDate}}">{{date_helper dueDate}}</time></span>
                         <span class="list-col list-col-2">{{title}}</span>
                         <span class="list-col list-col-3">{{importance_helper importance}}</span>
                     </div>
                     <div class="list-row">
-                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt {{date_helper finishedDate}}</span>
+                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt <time datetime="{{dueDate}}">{{date_helper finishedDate}}</time></span>
                         <span class="list-col list-col-2">{{description}}</span>
                     </div>
                 </div>
