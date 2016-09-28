@@ -43,6 +43,7 @@ var expectedFilesInDistDir = [
     'js/',
         'js/main.js',
         'js/about.js',
+        'js/storage.js',
         'js/vendor/',
             'js/vendor/jquery-' + pkg.devDependencies.jquery + '.min.js',
             'js/vendor/handlebars.min.js',
