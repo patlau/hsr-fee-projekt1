@@ -90,6 +90,7 @@ textarea {
     flex-direction: row;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
+    margin: 1em;
 }
 
 .toolbar-left {

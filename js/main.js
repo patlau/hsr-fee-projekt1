@@ -1,4 +1,4 @@
-/*global Handlebars, $, aboutModule */
+/*global Handlebars, $, aboutModule, storageModule */
 /*exported onEditClicked*/
 /*jshint unused:false*/
 
@@ -11,47 +11,13 @@ var mainModule = (function() {
     var templateCache = {}; // Handlebars compiled template cache
     var selectedStyle = "blackwhite"; // Default style
 
-    var sortOrder = 1; // Default Note sort order
-    var sortBy = null; // Default Note sort by
-    var showFinished = 0; // Do not show done Notes by default
+    var listOptions = {
+        sortOrder: 1, // Default Note sort order
+        sortBy: 'createdDate', // Default Note sort by
+        showFinished: 0 // Do not show done Notes by default
+    };
 
-    /* This will later be loaded from storage */
-    var notesJson = [
-        {
-            "id": 1,
-            "dueDate": "2016-09-25",
-            "importance": 2,
-            "description": `HTML für die note App erstellen.
-CSS erstellen für die note App. 
-Mehr erstellen für die note App`,
-            "title": "CAS FEE Selbststudium / Projekt Aufgaben erledigen",
-            "done": 1,
-            "createdDate": "2016-01-01",
-            "finishedDate": "2016-05-01"
-        },
-        {
-            "id": 2,
-            "dueDate": "2016-09-19",
-            "importance": 1,
-            "description": `Butter
-Eier
-Mehl`,
-            "title": "Einkaufen",
-            "done": 0,
-            "createdDate": "2016-02-01",
-            "finishedDate": null
-        },
-        {
-            "id": 3,
-            "dueDate": "2016-09-01",
-            "importance": 0,
-            "description": "999 99 99",
-            "title": "Mami anrufen",
-            "done": 0,
-            "createdDate": "2016-03-01",
-            "finishedDate": null
-        }
-    ];
+
 
     var allNotes = []; // All notes
     var notes = []; // Filtered notes
@@ -60,11 +26,10 @@ Mehl`,
      Note class / Just to try out ...
      ========================================================================== */
 
-    function Note(id, title, description, importance, dueDate, done, createdDate, finishedDate) {
+    function Note(id, title, description, importance, done, createdDate, finishedDate) {
         this.id = id;
         this.description = description;
         this.importance = importance;
-        this.dueDate = dueDate;
         this.done = done;
         this.createdDate = createdDate;
         this.finishedDate = finishedDate;
@@ -75,9 +40,8 @@ Mehl`,
      ========================================================================== */
 
     /*
-     * Load Handlebars template and update DOM if a selector is given.
-     * Each template is also registered as partial, so it can
-     * be reused.
+     * Load and compile Handlebars template and update DOM if a selector is given.
+     * Each template is also registered as partial, so it can be reused.
      */
     function loadTemplate(jQuerySelector, templateId, context) {
         let template = templateCache[templateId];
@@ -118,7 +82,7 @@ Mehl`,
             }
         });
         Handlebars.registerHelper('date_helper', function(dateStr) {
-            if(dateStr === null || dateStr === undefined) {
+            if(dateStr === null || dateStr === undefined || dateStr === '') {
                 return '';
             }
             let date = new Date(dateStr);
@@ -135,30 +99,30 @@ Mehl`,
      Note loading, sorting and filter
      ========================================================================== */
 
+    function toggleSortOrder(prop) {
+        // If same sort property, toggle sort order (ascending, descending)
+        if(listOptions.sortBy === prop) {
+            listOptions.sortOrder = (listOptions.sortOrder === 1) ? 0 : 1;
+        }
+    }
+
     function sortNotesBy(prop) {
 
-        // Not perfect but does work sometimes...
-        if(sortBy === prop) {
-            if(sortOrder === 1) {
-                sortOrder = 0;
-            } else {
-                sortOrder = 1;
-            }
-        }
-
         notes = notes.sort(function(a, b) {
-            if (sortOrder) {
+            if (listOptions.sortOrder) {
                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
             } else {
                 return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
             }
         });
 
-        sortBy = prop;
+        // Keep last sort property for refreshing list
+        listOptions.sortBy = prop;
+
     }
 
     function filterNotes() {
-        if(showFinished === 1) {
+        if(listOptions.showFinished === 1) {
             notes = allNotes;
         } else {
             notes = allNotes.filter(function(each) {
@@ -169,18 +133,17 @@ Mehl`,
 
     // Load notes, convert to Note objects and apply filter and sort order
     function loadNotes() {
-        let data = notesJson;
+        let data = storageModule.loadNotes();
         for (let item of data) {
             let note = $.extend(new Note(), item);
             allNotes.push(note);
         }
         filterNotes();
-        sortNotesBy("finishedDate");
+        sortNotesBy(listOptions.sortBy);
     }
 
     function addNote() {
-        let note = new Note(allNotes.length + 1, 'Neue Notiz', 'Beschreibung', 0, new Date().toISOString(), 0, new Date().toISOString(), null);
-        console.log(note);
+        let note = new Note(allNotes.length + 1, 'Neue Notiz', 'Beschreibung', 0, new Date().toISOString(), 0, new Date().toISOString(), '');
         allNotes.push(note);
     }
 
@@ -207,39 +170,39 @@ Mehl`,
      Events
      ========================================================================== */
 
-    function onEditClicked(id) {
-        //console.log(id);
+    function sortButtonClicked(sortProperty) {
+        toggleSortOrder(sortProperty);
+        sortNotesBy(sortProperty);
+        loadTemplate("#list", "list-template", {"notes": notes});
+    }
+
+    function refreshList() {
+        filterNotes();
+        sortNotesBy(listOptions.sortBy);
+        loadTemplate("#list", "list-template", {"notes": notes});
     }
 
     function registerEventHandlers() {
-        $( "#sortByFinishDate" ).on( "click", function() {
-            //console.log( "SortByFinishDate was clicked" );
-            sortNotesBy('finishedDate');
-            loadTemplate("#list", "list-template", {"notes": notes});
-        });
-        $( "#sortByCreatedDate" ).on( "click", function() {
-            //console.log( "sortByCreatedDate was clicked" );
-            sortNotesBy('createdDate');
-            loadTemplate("#list", "list-template", {"notes": notes});
-        });
-        $( "#sortByImportance" ).on( "click", function() {
-            //console.log( "sortByImportance was clicked" );
-            sortNotesBy('importance');
-            loadTemplate("#list", "list-template", {"notes": notes});
+        $( ".sortButton" ).on( "click", function() {
+            sortButtonClicked($(this).data().sortBy);
+
+            // Update sort icon
+            $(this).find('i').toggleClass('fa-sort-asc', listOptions.sortOrder === 1);
+            $(this).find('i').toggleClass('fa-sort-desc', listOptions.sortOrder === 0);
+
+            // Show or hide sort icon
+            $('.sortButton > i').addClass('hidden');
+            $(this).find('i').toggleClass('hidden');
+
         });
         $( "#newNote" ).on( "click", function() {
-            //console.log( "NewNote was clicked" );
             addNote();
-            filterNotes();
-            sortNotesBy(sortBy);
-            loadTemplate("#list", "list-template", {"notes": notes});
+            refreshList();
         });
         $( "#showFinished" ).on( "click", function() {
-            //console.log( "ShowFinished was clicked" );
-            showFinished = showFinished === 1 ? 0 : 1;
+            listOptions.showFinished = listOptions.showFinished === 1 ? 0 : 1;
             $(this).toggleClass("down");
-            filterNotes();
-            loadTemplate("#list", "list-template", {"notes": notes});
+            refreshList();
         });
         $( "#styleSelection" ).on( "change", function() {
             //console.log( "styleSelection was changed" );
@@ -265,8 +228,7 @@ Mehl`,
     }
 
     return {
-        initModule: initModule,
-        onEditClicked: onEditClicked
+        initModule: initModule
     };
 
 })();
