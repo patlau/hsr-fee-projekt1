@@ -119,7 +119,7 @@ textarea {
 }
 
 .list-col {
-    border: solid 1px green;
+    /*border: solid 1px green; */
     box-sizing: border-box;
     /*    margin: 2em; */
 }

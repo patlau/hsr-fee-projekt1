@@ -27,13 +27,20 @@ var mainModule = (function() {
      Note class / Just to try out ...
      ========================================================================== */
 
-    function Note(id, title, description, importance, done, createdDate, finishedDate) {
-        this.id = id;
-        this.description = description;
-        this.importance = importance;
-        this.done = done;
-        this.createdDate = createdDate;
-        this.finishedDate = finishedDate;
+    class Note {
+
+        constructor (data = {}) {
+            this.id = data.id || 0;
+            this.title = data.title || "Neue Notiz";
+            this.description = data.description || "";
+            this.importance = data.importance || 0;
+            this.createdDate = data.createdDate || (new Date().toISOString());
+            this.finishedDate = data.finishedDate || "";
+        }
+
+        get done() {
+            return this.finishedDate !== null && this.finishedDate !== "";
+        }
     }
 
     /* ==========================================================================
@@ -126,9 +133,7 @@ var mainModule = (function() {
         if(listOptions.showFinished === 1) {
             notes = allNotes;
         } else {
-            notes = allNotes.filter(function(each) {
-                return each.done === 0;
-            });
+            notes = allNotes.filter( each => !each.done );
         }
     }
 
@@ -136,7 +141,7 @@ var mainModule = (function() {
     function loadNotes() {
         let data = storageModule.loadNotes();
         for (let item of data) {
-            let note = $.extend(new Note(), item);
+            let note = new Note(item);
             allNotes.push(note);
         }
         filterNotes();
@@ -144,7 +149,7 @@ var mainModule = (function() {
     }
 
     function addNote() {
-        let note = new Note(allNotes.length + 1, 'Neue Notiz', 'Beschreibung', 0, new Date().toISOString(), 0, new Date().toISOString(), '');
+        let note = new Note({id: allNotes.length + 1});
         allNotes.push(note);
     }
 

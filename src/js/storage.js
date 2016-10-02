@@ -40,7 +40,15 @@ Mehl`,
 
     return {
         loadNotes: function() {
-            return notesJson;
+            let notes = JSON.parse(localStorage.getItem("notes"));
+            if(notes === null) {
+                notes = notesJson;
+            }
+            console.log(notes);
+            return notes;
+        },
+        saveNotes: function(notes) {
+            localStorage.setItem("notes", notes);
         }
     };
 
