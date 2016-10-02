@@ -88,8 +88,8 @@ textarea {
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     margin: 1em;
 }
 
@@ -113,11 +113,12 @@ textarea {
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     border: solid 1px gray;
     margin: 10px;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .list-col-data {
@@ -131,6 +132,7 @@ textarea {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+    box-sizing: border-box;
     /*    border: solid 1px red; */
     /*    margin: 10px; */
 }
@@ -151,18 +153,21 @@ textarea {
     -webkit-box-pack: start;
     -ms-flex-pack: start;
     justify-content: flex-start;
+    box-sizing: border-box;
     /*    border: solid 1px rebeccapurple; */
     /*    margin: 10px; */
 }
 
 .list-col {
-    /*    border: solid 1px green; */
+    border: solid 1px green;
+    box-sizing: border-box;
     /*    margin: 2em; */
 }
 
 .list-col-1 {
-    width: 10em;
-    min-width: 10em;
+    max-width: 10em;
+    width: 7em;
+    min-width: 5em;
 }
 
 .list-col-2 {
@@ -179,6 +184,11 @@ textarea {
     /*    border: solid 1px red; */
     /*    margin: 10px; */
     padding: 10px;
+}
+
+.list-col textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /*

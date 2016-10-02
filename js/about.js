@@ -1,3 +1,4 @@
+'use strict';
 /*global Handlebars, $*/
 /*exported onEditClicked*/
 /*jshint unused:false*/
@@ -14,7 +15,7 @@ var aboutModule = (function(){
         build: 'localbuild',
         commit: '',
         branch: 'master',
-        datetime: '2016-09-28T09:14:24.626Z'
+        datetime: '2016-10-02T10:18:09.670Z'
     };
 
     return {
