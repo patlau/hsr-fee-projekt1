@@ -76,7 +76,7 @@ textarea {
 .toolbar-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     margin: 1em;
 }
 
@@ -91,16 +91,18 @@ textarea {
 .list-row-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     border: solid 1px gray;
     margin: 10px;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .list-col-data {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    box-sizing: border-box;
     /*    border: solid 1px red; */
     /*    margin: 10px; */
 }
@@ -111,18 +113,21 @@ textarea {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
+    box-sizing: border-box;
     /*    border: solid 1px rebeccapurple; */
     /*    margin: 10px; */
 }
 
 .list-col {
-    /*    border: solid 1px green; */
+    border: solid 1px green;
+    box-sizing: border-box;
     /*    margin: 2em; */
 }
 
 .list-col-1 {
-    width: 10em;
-    min-width: 10em;
+    max-width: 10em;
+    width: 7em;
+    min-width: 5em;
 }
 
 .list-col-2 {
@@ -137,6 +142,11 @@ textarea {
     /*    border: solid 1px red; */
     /*    margin: 10px; */
     padding: 10px;
+}
+
+.list-col textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /*

@@ -1,3 +1,4 @@
+'use strict';
 /*global Handlebars, $*/
 /*exported onEditClicked*/
 /*jshint unused:false*/

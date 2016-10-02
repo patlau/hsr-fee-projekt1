@@ -1,3 +1,4 @@
+'use strict';
 /*global Handlebars, $, aboutModule, storageModule */
 /*exported onEditClicked*/
 /*jshint unused:false*/
