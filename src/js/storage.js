@@ -38,18 +38,22 @@ Mehl`,
         }
     ];
 
-    return {
-        loadNotes: function() {
-            let notes = JSON.parse(localStorage.getItem("notes"));
-            if(notes === null) {
-                notes = notesJson;
-            }
-            console.log(notes);
-            return notes;
-        },
-        saveNotes: function(notes) {
-            localStorage.setItem("notes", notes);
+    function loadNotes() {
+        let notes = JSON.parse(localStorage.getItem("notes"));
+        if(notes === null) {
+            notes = notesJson;
         }
+        console.log(notes);
+        return notes;
+    }
+
+    function saveNotes(notes) {
+        localStorage.setItem("notes", notes);
+    }
+
+    return {
+        loadNotes: loadNotes,
+        saveNotes: saveNotes
     };
 
 })();
