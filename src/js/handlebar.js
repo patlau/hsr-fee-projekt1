@@ -49,17 +49,28 @@ var handlebarModule = (function() {
                 return new Handlebars.SafeString("");
             }
         });
-        Handlebars.registerHelper('date_helper', function(dateStr) {
-            if(dateStr === null || dateStr === undefined || dateStr === '') {
+        Handlebars.registerHelper('date_helper', function(date) {
+            if(date === null || date === undefined || date === '') {
                 return '';
             }
-            let date = new Date(dateStr);
+            let dateObject = null;
+            if(date instanceof Date) {
+                dateObject = date;
+            } else {
+                dateObject = new Date(date);
+            }
             let now = Date.now();
-            if(now.valueOf() === date.valueOf()) {
+            if(now.valueOf() === dateObject.valueOf()) {
                 return "[Today]";
             } else {
-                return date.toLocaleDateString();
+                return dateObject.toLocaleDateString();
             }
+        });
+        Handlebars.registerHelper('date_iso_helper', function(date) {
+            if(date === null || date === undefined || date === '') {
+                return '';
+            }
+            return date.toDateISOString();
         });
     }
 

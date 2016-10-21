@@ -88,7 +88,38 @@
             </div>
         </script>
 
-
+        <script id="edit-template" type="text/x-handlebars-template">
+            <div class="edit-container">
+                <div class="edit-item">
+                    <label for="title">Title</label>
+                    <div class="edit-item-input">
+                        <input type="text" id="title" value="{{title}}" required>
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <label for="description">Description</label>
+                    <div class="edit-item-input">
+                        <textarea id="description" rows="7">{{description}}</textarea>
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <label for="importance">Importance</label>
+                    <div class="edit-item-input">
+                        <input type="range" id="importance" value="{{importance}}" required size="1" min="0" max="5">
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <label for="due">Due date</label>
+                    <div class="edit-item-input">
+                        <input type="date" id="due" value="{{date_iso_helper dueDate}}">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-buttons">
+                <button id="ok">OK</button>
+                <button id="cancel">Cancel</button>
+            </div>
+        </script>
 
         <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>

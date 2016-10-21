@@ -4,6 +4,10 @@
 
 var noteModule = (function() {
 
+    Date.prototype.toDateISOString = function() {
+        return this.toISOString().substr(0,10);
+    };
+
     var listOptions = {
         sortOrder: 1, // Default Note sort order
         sortBy: '', // Default Note sort by
@@ -20,12 +24,17 @@ var noteModule = (function() {
             this.title = data.title || "Neue Notiz";
             this.description = data.description || "";
             this.importance = data.importance || 0;
-            this.createdDate = data.createdDate || (new Date().toISOString());
+            this.createdDate = data.createdDate || (new Date());
             this.finishedDate = data.finishedDate || "";
+            this.dueDate = data.dueDate || (new Date());
         }
 
         get done() {
             return this.finishedDate !== null && this.finishedDate !== "";
+        }
+
+        set done(value) {
+            this.finishedDate = (new Date());
         }
     }
 
@@ -92,6 +101,10 @@ var noteModule = (function() {
         return notes;
     }
 
+    function getNote(id) {
+        return notes.find(each => each.id === id);
+    }
+
     return {
         loadNotes: loadNotes,
         addNote: addNote,
@@ -99,7 +112,8 @@ var noteModule = (function() {
         sortNotesBy: sortNotesBy,
         getSortOrder: getSortOrder,
         toggleShowFinished: toggleShowFinished,
-        getNotes: getNotes
+        getNotes: getNotes,
+        getNote: getNote
     };
 
 })();

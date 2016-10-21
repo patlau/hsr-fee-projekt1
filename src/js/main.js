@@ -81,6 +81,9 @@ var mainModule = (function() {
         $('#list').on('click', '.edit', function() {
             let noteId = $(this).closest(".list-row-container").data().noteId;
             console.log("Edit: " + noteId);
+            let note = noteModule.getNote(noteId);
+            console.log(note);
+            handlebarModule.loadTemplate("main", "edit-template", note);
         });
     }
 

@@ -144,9 +144,46 @@ textarea {
     padding: 10px;
 }
 
-.list-col textarea {
+textarea {
     width: 100%;
     box-sizing: border-box;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+input[type=text] {
+    width: 100%;
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0.5em 0.5em;
+}
+
+.edit-buttons {
+    margin: 0.5em 0.5em;
+}
+
+.edit-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin-bottom: 0.5em;
+}
+
+.edit-item label {
+    white-space: nowrap;
+    min-widht: 8em;
+    width: 8em;
+}
+
+.edit-item-input {
+    flex-grow: 1;
 }
 
 /*
