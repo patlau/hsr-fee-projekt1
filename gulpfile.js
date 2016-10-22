@@ -144,7 +144,7 @@ gulp.task('copy:misc', function () {
         // (other tasks will handle the copying of these files)
         '!' + dirs.src + '/css/main.css',
         '!' + dirs.src + '/index.html',
-        '!' + dirs.src + '/js/about.js'
+        '!' + dirs.src + '/js/aboutService.js'
 
     ], {
 
@@ -182,7 +182,7 @@ gulp.task('copy:about', function () {
     // Read the settings from the right file
 
     // Replace each placeholder with the correct value for the variable.
-    gulp.src('src/js/about.js')
+    gulp.src('src/js/aboutService.js')
         .pipe(replace({
             patterns: [
                 { match: 'BUILD', replacement: build },
