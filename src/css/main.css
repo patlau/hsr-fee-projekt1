@@ -76,7 +76,7 @@ textarea {
 /* Notes table styles */
 
 table#notes {
-    width: 95%;
+    width: 100%;
     border-collapse: separate;
     border-spacing: 1em;
 }
