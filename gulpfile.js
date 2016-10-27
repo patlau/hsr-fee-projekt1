@@ -176,7 +176,7 @@ gulp.task('copy:about', function () {
     var commit = args.TRAVIS_COMMIT || '';
     var branch = args.TRAVIS_BRANCH || 'master';
     var project = args.TRAVIS_REPO_SLUG || 'projekt1';
-    var committer = args.COMMIT_AUTHOR_EMAIL || 'plauper@yahoo.com';
+    var committer = args.COMMIT_AUTHOR_EMAIL || '';
     var datetime = new Date().toISOString();
 
     // Read the settings from the right file
