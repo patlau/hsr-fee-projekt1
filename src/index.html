@@ -7,18 +7,11 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
-
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
         <!-- Add your site or application content here -->
         <header></header>
         <main>
@@ -36,56 +29,53 @@
 
         <script id="master-template" type="text/x-handlebars-template">
             <div id="header">
-                <p class="toolbar-container">
-                    <span class="toolbar-left">
+                <div class="container toolbar">
+                    <div class="left">
                         <button id="newNote">Create new Note</button>
-                    </span>
-                    <span class="toolbar-right">
+                    </div>
+                    <div class="right">
                         <select id="styleSelection" size="1">
                             <option value="blackwhite">BlackWhite-Style</option>
                             <option value="color">Color-Style</option>
                         </select>
-                    </span>
-                </p>
-                <p class="list-header-container toolbar-container">
-                    <div class="list-sort-order toolbar-left">
+                    </div>
+                </div>
+                <div class="container toolbar">
+                    <div class="left">
                         <button id="sortByFinishedDate" class="sortButton" data-sort-by="finishedDate">By finished Date <i class="fa fa-sort-asc hidden" aria-hidden="true"></i></button>
                         <button id="sortByCreatedDate" class="sortButton" data-sort-by="createdDate">By created Date <i class="fa fa-sort-asc "aria-hidden="true"></i></button>
                         <button id="sortByImportance" class="sortButton" data-sort-by="importance">By Importance <i class="fa fa-sort-asc hidden" aria-hidden="true"></i></button>
                     </div>
-                    <div class="toolbar-right">
+                    <div class="right">
                         <button id="showFinished">Show finished</button>
                     </div>
-                </p>
+                </div>
             </div>
             <div id="list"></div>
         </script>
 
         <script id="list-template" type="text/x-handlebars-template">
-            <div id="list-container">
+            <table id="notes">
                 {{#each notes}}
-                {{> list-entry-template this }}
+                <tr data-note-id="{{id}}">
+                    {{> list-entry-template this }}
+                </tr>
                 {{/each}}
-            </div>
+            </table>
         </script>
 
         <script id="list-entry-template" type="text/x-handlebars-template">
-            <div class="list-row-container" data-note-id="{{id}}">
-                <div class="list-col-data">
-                    <div class="list-row">
-                        <span class="list-col list-col-1"><time datetime="{{createdDate}}">{{date_helper createdDate}}</time></span>
-                        <span class="list-col list-col-2">{{title}}</span>
-                        <span class="list-col list-col-3">{{importance_helper importance}}</span>
-                    </div>
-                    <div class="list-row">
-                        <span class="list-col list-col-1"><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt <time datetime="{{dueDate}}">{{date_helper finishedDate}}</time></span>
-                        <span class="list-col list-col-2"><div class="textwrapper"><textarea readonly>{{description}}</textarea></div></span>
-                    </div>
-                </div>
-                <div class="list-col-actions">
-                    <button class="edit">Edit</button>
-                </div>
-            </div>
+            <td>
+                <div><time datetime="{{createdDate}}">{{date_helper createdDate}}</time></div>
+                <div><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt <time datetime="{{dueDate}}">{{date_helper finishedDate}}</time></div>
+            </td>
+            <td>
+                <div class="container"><div class="left">{{title}}</div><div class="right">{{importance_helper importance}}</div></div>
+                <div ><div class="textwrapper"><textarea readonly>{{description}}</textarea></div></div>
+            </td>
+            <td class="actions">
+                <button>Edit</button>
+            </td>
         </script>
 
         <script id="edit-template" type="text/x-handlebars-template">
@@ -117,7 +107,7 @@
             </div>
             <div class="edit-buttons">
                 <button id="ok">OK</button>
-                <button id="cancel">Cancel</button>
+                <button id="cancel" type="reset">Cancel</button>
             </div>
         </script>
 
