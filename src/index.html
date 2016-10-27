@@ -102,39 +102,24 @@
 
                 The <main> tag will be replaced with this template.
 
-                Form labels are placed on left when there is enough place,
-                otherwise they are placed on top of the input.
-
-                If there are better ways to do this kind of 'responsive' form layout,
-                please let me know!
              -->
 
-            <form>
-                <div class="edit-container">
-                    <div class="edit-item">
-                        <label for="title">Title</label>
-                        <div class="edit-item-input">
-                            <input type="text" id="title" value="{{title}}" required>
-                        </div>
-                    </div>
-                    <div class="edit-item">
-                        <label for="description">Description</label>
-                        <div class="edit-item-input">
-                            <textarea id="description" rows="7">{{description}}</textarea>
-                        </div>
-                    </div>
-                    <div class="edit-item">
-                        <label for="importance">Importance</label>
-                        <div class="edit-item-input">
-                            <input type="range" id="importance" value="{{importance}}" required size="1" min="0" max="5">
-                        </div>
-                    </div>
-                    <div class="edit-item">
-                        <label for="due">Due date</label>
-                        <div class="edit-item-input">
-                            <input type="date" id="due" value="{{date_iso_helper dueDate}}">
-                        </div>
-                    </div>
+            <form class="edit-container">
+                <div class="edit-item">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" value="{{title}}" required>
+                </div>
+                <div class="edit-item">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="7">{{description}}</textarea>
+                </div>
+                <div class="edit-item">
+                    <label for="importance">Importance</label>
+                    <input type="range" id="importance" value="{{importance}}" required size="1" min="0" max="5">
+                </div>
+                <div class="edit-item">
+                   <label for="due">Due date</label>
+                    <input type="date" id="due" value="{{date_iso_helper dueDate}}">
                 </div>
                 <div class="edit-buttons">
                     <button id="ok">OK</button>

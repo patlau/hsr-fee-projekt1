@@ -104,10 +104,6 @@ input {
     box-sizing: border-box;
 }
 
-input[type=text] {
-    width: 100%;
-}
-
 .edit-container {
     display: flex;
     flex-direction: column;
@@ -133,8 +129,12 @@ input[type=text] {
     width: 8em;
 }
 
-.edit-item-input {
+.edit-item input[type=text], textarea {
     flex-grow: 1;
+}
+
+.edit-item textarea {
+    width: 50%;
 }
 
 /*
