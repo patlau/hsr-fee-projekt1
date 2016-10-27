@@ -12,7 +12,9 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <!-- Add your site or application content here -->
+
+    <!-- Main layout -->
+
         <header></header>
         <main>
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
@@ -20,7 +22,10 @@
         </main>
         <footer></footer>
 
+        <!-- Handlebar templates -->
+
         <script id="app-footer-template" type="text/x-handlebars-template">
+            <!-- Footer template -->
             <div>
                 <hr>
                 {{project}} | {{committer}} | Build {{build}} | {{branch}} | {{commit}} | {{datetime}}
@@ -28,6 +33,12 @@
         </script>
 
         <script id="master-template" type="text/x-handlebars-template">
+
+            <!--
+                Template for first page with note list.
+                The <main> tag will be replaced with this template.
+             -->
+
             <div id="header">
                 <div class="container toolbar">
                     <div class="left">
@@ -55,6 +66,9 @@
         </script>
 
         <script id="list-template" type="text/x-handlebars-template">
+
+            <!-- Template for note table -->
+
             <table id="notes">
                 {{#each notes}}
                 <tr data-note-id="{{id}}">
@@ -65,6 +79,9 @@
         </script>
 
         <script id="list-entry-template" type="text/x-handlebars-template">
+
+            <!-- Template for note table row -->
+
             <td>
                 <div><time datetime="{{createdDate}}">{{date_helper createdDate}}</time></div>
                 <div><input name="finished" {{checked_helper done}} type="checkbox"> Erledigt <time datetime="{{dueDate}}">{{date_helper finishedDate}}</time></div>
@@ -79,36 +96,51 @@
         </script>
 
         <script id="edit-template" type="text/x-handlebars-template">
-            <div class="edit-container">
-                <div class="edit-item">
-                    <label for="title">Title</label>
-                    <div class="edit-item-input">
-                        <input type="text" id="title" value="{{title}}" required>
+
+            <!--
+                Template for editing a note.
+
+                The <main> tag will be replaced with this template.
+
+                Form labels are placed on left when there is enough place,
+                otherwise they are placed on top of the input.
+
+                If there are better ways to do this kind of 'responsive' form layout,
+                please let me know!
+             -->
+
+            <form>
+                <div class="edit-container">
+                    <div class="edit-item">
+                        <label for="title">Title</label>
+                        <div class="edit-item-input">
+                            <input type="text" id="title" value="{{title}}" required>
+                        </div>
+                    </div>
+                    <div class="edit-item">
+                        <label for="description">Description</label>
+                        <div class="edit-item-input">
+                            <textarea id="description" rows="7">{{description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="edit-item">
+                        <label for="importance">Importance</label>
+                        <div class="edit-item-input">
+                            <input type="range" id="importance" value="{{importance}}" required size="1" min="0" max="5">
+                        </div>
+                    </div>
+                    <div class="edit-item">
+                        <label for="due">Due date</label>
+                        <div class="edit-item-input">
+                            <input type="date" id="due" value="{{date_iso_helper dueDate}}">
+                        </div>
                     </div>
                 </div>
-                <div class="edit-item">
-                    <label for="description">Description</label>
-                    <div class="edit-item-input">
-                        <textarea id="description" rows="7">{{description}}</textarea>
-                    </div>
+                <div class="edit-buttons">
+                    <button id="ok">OK</button>
+                    <button id="cancel" type="reset">Cancel</button>
                 </div>
-                <div class="edit-item">
-                    <label for="importance">Importance</label>
-                    <div class="edit-item-input">
-                        <input type="range" id="importance" value="{{importance}}" required size="1" min="0" max="5">
-                    </div>
-                </div>
-                <div class="edit-item">
-                    <label for="due">Due date</label>
-                    <div class="edit-item-input">
-                        <input type="date" id="due" value="{{date_iso_helper dueDate}}">
-                    </div>
-                </div>
-            </div>
-            <div class="edit-buttons">
-                <button id="ok">OK</button>
-                <button id="cancel" type="reset">Cancel</button>
-            </div>
+            </form>
         </script>
 
         <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>

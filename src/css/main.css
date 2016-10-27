@@ -71,6 +71,7 @@ body {
 textarea {
     width: 100%;
     box-sizing: border-box;
+    resize: vertical;
 }
 
 /* Notes table styles */
@@ -89,6 +90,7 @@ tr {
 td {
     padding: 0.5em;
     vertical-align: top;
+    text-align: left;
 }
 
 td.actions {
