@@ -57,7 +57,7 @@ NoteModule.listPage = (function() {
         });
         // Register event handler must be called always after setting list
         $('#list').on('click', '.edit', function() {
-            let noteId = $(this).closest(".list-row-container").data().noteId;
+            let noteId = $(this).closest("tr").data().noteId;
             console.log("Edit: " + noteId);
             let note = listService.getNote(noteId);
             NoteModule.editPage.display(note);
