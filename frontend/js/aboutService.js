@@ -10,12 +10,12 @@
 var aboutModule = (function(){
 
     var about = {
-        project: 'projekt1',
-        committer: 'plauper@yahoo.com',
-        build: 'localbuild',
-        commit: '',
-        branch: 'master',
-        datetime: '2016-10-21T19:19:58.783Z'
+        project: '@@PROJECT',
+        committer: '@@COMMITTER',
+        build: '@@BUILD',
+        commit: '@@COMMIT',
+        branch: '@@BRANCH',
+        datetime: '@@DATETIME'
     };
 
     return {
