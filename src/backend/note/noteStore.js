@@ -42,8 +42,7 @@ function publicAll(callback)
 }
 
 function publicUpdate(id, data, callback) {
-    var note = new Note(data);
-    db.update({_id: id}, {$set: note}, {}, function (err, count) {
+    db.update({_id: id}, { $set: data }, {}, function (err, count) {
         publicGet(id, callback);
     });
 }

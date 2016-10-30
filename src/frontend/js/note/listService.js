@@ -99,10 +99,10 @@ NoteModule.listService = (function() {
     /*
      * TODO: If Storage Service fails, the done state on my cache is invalid
      */
-    function publicToggleDone(id, callback) {
+    function publicSetDone(id, value, callback) {
         let note = publicGetNote(id);
         if(note) {
-            note.done = note.done ? false : true;
+            note.done = value ? true : false;
             console.log("DONE: " + note.done + " FOR " + note.id);
             NoteModule.storageService.saveNote(note).then(
                 function(note) {
@@ -119,7 +119,7 @@ NoteModule.listService = (function() {
         getNotes: publicGetNotes,
         getNote: publicGetNote,
         toggleSortBy: publicToggleSortBy,
-        toggleDone: publicToggleDone,
+        setDone: publicSetDone,
         getOptions: publicGetOptions
     };
 

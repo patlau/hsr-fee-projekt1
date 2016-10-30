@@ -13,10 +13,14 @@ NoteModule.listController = (function(listService, $) {
             let note = listService.getNote(noteId);
             NoteModule.editController.display(note);
         });
+
+        // #TODO: Why is this triggered twice?
         $('#list').on('click', 'input[type=checkbox]', function() {
+            console.log('clicked', $(this));
             let noteId = $(this).closest("tr").data().noteId;
-            console.log("Done: " + noteId);
-            listService.toggleDone(noteId);
+            let checked = $(this).is(':checked');
+            console.log("Done", noteId, checked);
+            listService.setDone(noteId, checked);
         });
     }
 

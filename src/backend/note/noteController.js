@@ -22,8 +22,8 @@ module.exports.getNote = function(req, res){
 
 module.exports.createNote = function(req, res)
 {
-    console.log('ADD ' + JSON.stringify(req.params));
-    store.add(req.params, function(err, note) {
+    console.log('ADD ' + JSON.stringify(req.body));
+    store.add(req.body, function(err, note) {
         res.format({
             'application/json': function(){
                 res.json(note);
@@ -34,8 +34,8 @@ module.exports.createNote = function(req, res)
 
 module.exports.updateNote =  function (req, res)
 {
-    console.log('UPDATE ' + req.params.id + ' => ' + JSON.stringify(req.params));
-    store.update(req.params.id, req.params, function(err, note) {
+    console.log('UPDATE ' + req.params.id + ' => ' + JSON.stringify(req.body));
+    store.update(req.params.id, req.body, function(err, note) {
         res.format({
             'application/json': function(){
                 res.json(note);

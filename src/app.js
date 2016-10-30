@@ -3,10 +3,15 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
-try {
-    app.use(require('connect-livereload')());
-} catch(ex) {
-    console.log('Livereload deactivated');
+// try {
+//     app.use(require('connect-livereload')());
+// } catch(ex) {
+//     console.log('Livereload deactivated');
+// }
+
+function logger(req,res,next){
+    console.log(new Date(), req.method, req.url, req.params, req.body);
+    next();
 }
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,6 +23,7 @@ app.use(require("method-override")(function(req, res){
         return method;
     }
 }));
+app.use(logger);
 
 //app.use("/", require('./backend/indexRoutes.js'));
 app.use("/", express.static(__dirname + '/frontend'));
