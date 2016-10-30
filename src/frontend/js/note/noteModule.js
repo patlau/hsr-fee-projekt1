@@ -13,13 +13,21 @@ var NoteModule = function() {
     class Note {
 
         constructor(data = {}) {
-            this.id = data.id || 0;
+            this._id = data.id || data._id;
             this.title = data.title || "Neue Notiz";
             this.description = data.description || "";
             this.importance = data.importance || 0;
             this.createdDate = data.createdDate || (new Date());
             this.finishedDate = data.finishedDate || "";
             this.dueDate = data.dueDate || (new Date());
+        }
+
+        get id() {
+            return this._id || 0;
+        }
+
+        set id(value) {
+            this._id = value;
         }
 
         get done() {
