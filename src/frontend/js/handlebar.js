@@ -43,7 +43,7 @@ var handlebarModule = (function() {
             return new Handlebars.SafeString(out);
         });
         Handlebars.registerHelper('checked_helper', function (done) {
-            if(done === 1) {
+            if(done) {
                 return new Handlebars.SafeString("checked");
             } else {
                 return new Handlebars.SafeString("");

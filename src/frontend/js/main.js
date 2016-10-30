@@ -11,7 +11,7 @@
     function initModule() {
         handlebarModule.initHandlebars();
         handlebarModule.loadTemplate("footer", "app-footer-template", aboutModule.about);
-        NoteModule.listPage.display();
+        NoteModule.listController.display();
         StyleModule.applyStyle("blackwhite");
     }
 

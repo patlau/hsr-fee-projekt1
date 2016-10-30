@@ -27,17 +27,16 @@ var NoteModule = function() {
         }
 
         set done(value) {
-            this.finishedDate = (new Date());
+            if(value) {
+                this.finishedDate = (new Date());
+            } else {
+                this.finishedDate = "";
+            }
         }
     }
 
-    class NoteRepository {
-
-    }
-
     return {
-        Note: Note,
-        NoteRepository: NoteRepository
+        Note: Note
     };
 
 }();

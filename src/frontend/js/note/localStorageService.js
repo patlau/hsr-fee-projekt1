@@ -80,8 +80,8 @@ NoteModule.storageService = (function(){
     }
 
     return {
-        allNotes: loadNotes,
-        openNotes: openNotes,
+        findAllNotes: loadNotes,
+        findOpenNotes: openNotes,
         saveNote: saveNote,
         createNote: createNote,
     };

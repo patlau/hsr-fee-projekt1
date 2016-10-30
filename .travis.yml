@@ -16,4 +16,4 @@ after_success:
 env:
   global:
   - ENCRYPTION_LABEL: "b49a64915829"
-  - COMMIT_AUTHOR_EMAIL: "plauper@yahoo.com"
+  - COMMIT_AUTHOR_EMAIL: "travis@build.local"

@@ -2,9 +2,7 @@
 /*global Handlebars, $, StyleModule, handlebarModule, NoteModule */
 /*jshint unused:false*/
 
-NoteModule.listPage = (function() {
-
-    var listService = NoteModule.listService;
+NoteModule.listController = (function(listService, $) {
 
     function updateListTemplate() {
         handlebarModule.loadTemplate("#list", "list-template", {"notes": listService.getNotes()});
@@ -60,12 +58,17 @@ NoteModule.listPage = (function() {
             let noteId = $(this).closest("tr").data().noteId;
             console.log("Edit: " + noteId);
             let note = listService.getNote(noteId);
-            NoteModule.editPage.display(note);
-        });
+            NoteModule.editController.display(note);
+        })
+        $('#list').on('click', 'input[type=checkbox]', function() {
+            let noteId = $(this).closest("tr").data().noteId;
+            console.log("Done: " + noteId);
+            listService.toggleDone(noteId);
+        })
     }
 
     return {
         display: displayListPage
     };
 
-})();
+})(NoteModule.listService, jQuery);

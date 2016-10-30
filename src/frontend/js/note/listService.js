@@ -40,9 +40,9 @@ NoteModule.listService = (function() {
 
     function privateLoadNotes() {
         if(listOptions.showFinished === 1) {
-            return NoteModule.storageService.allNotes();
+            return NoteModule.storageService.findAllNotes();
         } else {
-            return NoteModule.storageService.openNotes(true);
+            return NoteModule.storageService.findOpenNotes(true);
         }
     }
 
@@ -78,6 +78,14 @@ NoteModule.listService = (function() {
         return notes.find(each => each.id === id);
     }
 
+    function toggleDone(id) {
+        let note = getNote(id);
+        if(note) {
+            note.done = note.done ? false : true;
+            NoteModule.storageService.saveNote(note);
+        }
+    }
+
     return {
         loadNotes: loadNotes,
         addNote: addNote,
@@ -86,7 +94,8 @@ NoteModule.listService = (function() {
         getNotes: getNotes,
         getNote: getNote,
         sortNotes: sortNotes,
-        toggleSortBy: toggleSortBy
+        toggleSortBy: toggleSortBy,
+        toggleDone: toggleDone
     };
 
 })();

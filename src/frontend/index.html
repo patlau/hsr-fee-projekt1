@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Note App</title>
+        <title>Note App with Express</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,6 @@
 
     <!-- Main layout -->
 
-        <header></header>
         <main>
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             <span>Loading...</span>
@@ -128,18 +127,17 @@
             </form>
         </script>
 
-        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery.min.js"></script>
         <script src="js/vendor/handlebars.min.js"></script>
         <script src="js/aboutService.js"></script>
         <script src="js/styleService.js"></script>
         <script src="js/handlebar.js"></script>
         <script src="js/note/noteModule.js"></script>
-        <script src="js/note/storageService.js"></script>
+        <script src="js/note/localStorageService.js"></script>
         <script src="js/note/listService.js"></script>
         <script src="js/note/editService.js"></script>
-        <script src="js/note/listPage.js"></script>
-        <script src="js/note/editPage.js"></script>
+        <script src="js/note/listController.js"></script>
+        <script src="js/note/editController.js"></script>
         <script src="js/main.js"></script>
 
     </body>
