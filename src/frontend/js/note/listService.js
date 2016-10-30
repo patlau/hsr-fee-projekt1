@@ -47,7 +47,7 @@ NoteModule.listService = (function() {
         });
     }
 
-    // Load notes, convert to Note objects and apply filter and sort order
+    // Load notes
     function publicLoadNotes(callback) {
         console.log('LoadNotes: ' + JSON.stringify(notes));
         if (!notes || notes.length === 0) {
@@ -58,13 +58,14 @@ NoteModule.listService = (function() {
                         let note = new NoteModule.Note(item);
                         notes.push(note);
                     }
-                    callback();
+                    console.log(notes);
+                    if(callback) callback();
                 },
                 function(err) {
                     console.log(err);
                 });
         } else {
-            callback();
+            if(callback) callback();
         }
     }
 
@@ -72,7 +73,7 @@ NoteModule.listService = (function() {
         let note = NoteModule.storageService.createNote().then(
             function(note) {
                 notes.push(new NoteModule.Note(note));
-                callback();
+                if(callback) callback();
             } ,
             function(err) {window.alert(err)});
     }
@@ -95,11 +96,19 @@ NoteModule.listService = (function() {
         return notes.find(each => each.id === id);
     }
 
-    function publicToggleDone(id) {
+    /*
+     * TODO: If Storage Service fails, the done state on my cache is invalid
+     */
+    function publicToggleDone(id, callback) {
         let note = publicGetNote(id);
         if(note) {
             note.done = note.done ? false : true;
-            NoteModule.storageService.saveNote(note);
+            console.log("DONE: " + note.done + " FOR " + note.id);
+            NoteModule.storageService.saveNote(note).then(
+                function(note) {
+                    if(callback) callback();
+                } ,
+                function(err) {window.alert(err)});
         }
     }
 

@@ -22,6 +22,7 @@ module.exports.getNote = function(req, res){
 
 module.exports.createNote = function(req, res)
 {
+    console.log('ADD ' + JSON.stringify(req.params));
     store.add(req.params, function(err, note) {
         res.format({
             'application/json': function(){
@@ -33,6 +34,7 @@ module.exports.createNote = function(req, res)
 
 module.exports.updateNote =  function (req, res)
 {
+    console.log('UPDATE ' + req.params.id + ' => ' + JSON.stringify(req.params));
     store.update(req.params.id, req.params, function(err, note) {
         res.format({
             'application/json': function(){

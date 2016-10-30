@@ -1,18 +1,33 @@
 'use strict';
 /*global NoteModule*/
 /*jshint unused:false*/
-NoteModule.storageService = (function(ajaxUtil){
+NoteModule.storageService = (function($){
+
+    function ajax(metod, url, data, headers) {
+        return $.ajax({
+            dataType: "json",
+            contentType: "application/json",
+            headers: headers,
+            method: metod,
+            url: url,
+            data: JSON.stringify(data)
+        });
+    }
 
     function publicLoadNotes() {
-        return ajaxUtil.ajax("GET", "/notes/", {});
+        console.log('REST>>GET');
+        return ajax("GET", "/notes/", {});
     }
 
     function publicSaveNote(note) {
-        return ajaxUtil.ajax("PUT", "/notes/" + note.id, note);
+        console.log('REST>>PUT ' + JSON.stringify(note));
+        return ajax("PUT", "/notes/" + note.id, note);
     }
 
     function publicCreateNote() {
-        return ajaxUtil.ajax("POST", "/notes/", note);
+        let note = {};
+        console.log('REST>>POST ' + JSON.stringify(note));
+        return ajax("POST", "/notes/", note);
     }
 
     return {
@@ -21,4 +36,4 @@ NoteModule.storageService = (function(ajaxUtil){
         createNote: publicCreateNote,
     };
 
-})(window.ajaxUtil);
+})(jQuery);
