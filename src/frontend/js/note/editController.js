@@ -18,8 +18,10 @@ NoteModule.editController = (function() {
             note.importance = $("#importance").val();
             note.dueDate = $("#dueDate").val();
 
-            NoteModule.editService.saveNote(note);
-            NoteModule.listController.display();
+            NoteModule.editService.saveNote(note, function() {
+                console.log('SAVED => Display List Controller');
+                NoteModule.listController.display();
+            });
         });
     }
 

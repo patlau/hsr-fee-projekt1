@@ -6,6 +6,18 @@ NoteModule.listController = (function(listService, $) {
 
     function updateListTemplate() {
         handlebarModule.loadTemplate("#list", "list-template", {"notes": listService.getNotes()});
+        // Register event handler must be called always after setting list
+        $('#list').on('click', '.edit', function() {
+            let noteId = $(this).closest("tr").data().noteId;
+            console.log("Edit: " + noteId);
+            let note = listService.getNote(noteId);
+            NoteModule.editController.display(note);
+        });
+        $('#list').on('click', 'input[type=checkbox]', function() {
+            let noteId = $(this).closest("tr").data().noteId;
+            console.log("Done: " + noteId);
+            listService.toggleDone(noteId);
+        });
     }
 
     function refreshList() {
@@ -14,13 +26,9 @@ NoteModule.listController = (function(listService, $) {
 
     function displayListView() {
 
-        // Initial load of all notes
-        listService.loadNotes();
-
         // Load and display templates
         handlebarModule.loadTemplate("", "list-entry-template", {});
         handlebarModule.loadTemplate("main", "master-template", {});
-        updateListTemplate();
 
         // Register event handlers
         $( ".sortButton" ).on( "click", function() {
@@ -38,8 +46,9 @@ NoteModule.listController = (function(listService, $) {
 
         });
         $( "#newNote" ).on( "click", function() {
-            listService.addNote();
-            refreshList();
+            listService.addNote(function() {
+                refreshList();
+            });
         });
         $( "#showFinished" ).on( "click", function() {
             listService.toggleShowFinished();
@@ -50,18 +59,6 @@ NoteModule.listController = (function(listService, $) {
             //console.log( "styleSelection was changed" );
             StyleModule.applyStyle($(this).val());
         });
-        // Register event handler must be called always after setting list
-        $('#list').on('click', '.edit', function() {
-            let noteId = $(this).closest("tr").data().noteId;
-            console.log("Edit: " + noteId);
-            let note = listService.getNote(noteId);
-            NoteModule.editController.display(note);
-        });
-        $('#list').on('click', 'input[type=checkbox]', function() {
-            let noteId = $(this).closest("tr").data().noteId;
-            console.log("Done: " + noteId);
-            listService.toggleDone(noteId);
-        });
 
         // Initial view states
         let options = listService.getOptions();
@@ -71,6 +68,9 @@ NoteModule.listController = (function(listService, $) {
             $('#showFinished').removeClass('down');
         }
         setSortIcon(options);
+
+        // Initial load of all notes
+        listService.loadNotes(updateListTemplate);
     }
 
     function setSortIcon(options) {

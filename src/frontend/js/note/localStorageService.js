@@ -41,8 +41,13 @@ NoteModule.storageService = (function(){
         if(notes === null) {
             notes = notesJson;
         }
-        console.log(notes);
-        return notes;
+        return new Promise(function(resolve, reject) {
+            if (notes) {
+                resolve(notes);
+            } else {
+                reject(Error("No notes loaded"));
+            }
+        });
     }
 
     function privateSaveNotes() {
@@ -55,21 +60,42 @@ NoteModule.storageService = (function(){
         localStorage.setItem("notes", json);
     }
 
-    function publicSaveNote(note) {
-        if(!notes)
-            return;
-        let idx = notes.findIndex(each => {return each.id === note.id});
-        if(idx) {
-            notes[idx] = note;
+    function privateSaveNote(note) {
+        if(notes) {
+            let idx = notes.findIndex(each => {return each.id === note.id});
+            if(idx) {
+                notes[idx] = note;
+            }
+            privateSaveNotes();
         }
-        privateSaveNotes();
+        return note;
+    }
+
+    function publicSaveNote(note) {
+        let savedNote = privateSaveNote(note);
+        return new Promise(function(resolve, reject) {
+            if (savedNote.id) {
+                resolve(savedNote);
+            } else {
+                reject(Error("Note not saved"));
+            }
+        });
     }
 
     function publicCreateNote() {
-        let note = {id: notes.length + 1};
-        notes.push(note);
-        saveNote(note);
-        return note;
+        let note = null;
+        if(notes) {
+            note = {id: notes.length + 1};
+            notes.push(note);
+            note = privateSaveNote(note);
+        }
+        return new Promise(function(resolve, reject) {
+            if (note.id) {
+                resolve(note);
+            } else {
+                reject(Error("Note not created"));
+            }
+        });
     }
 
     return {

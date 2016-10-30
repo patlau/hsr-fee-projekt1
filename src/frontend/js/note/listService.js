@@ -48,21 +48,33 @@ NoteModule.listService = (function() {
     }
 
     // Load notes, convert to Note objects and apply filter and sort order
-    function publicLoadNotes() {
+    function publicLoadNotes(callback) {
         console.log('LoadNotes: ' + JSON.stringify(notes));
         if (!notes || notes.length === 0) {
             console.log('LOAD');
-            let data = NoteModule.storageService.loadNotes();
-            for (let item of data) {
-                let note = new NoteModule.Note(item);
-                notes.push(note);
-            }
+            NoteModule.storageService.loadNotes().then(
+                function(data) {
+                    for (let item of data) {
+                        let note = new NoteModule.Note(item);
+                        notes.push(note);
+                    }
+                    callback();
+                },
+                function(err) {
+                    console.log(err);
+                });
+        } else {
+            callback();
         }
     }
 
-    function publicAddNote() {
-        let note = NoteModule.storageService.createNote();
-        notes.push(new NoteModule.Note(note));
+    function publicAddNote(callback) {
+        let note = NoteModule.storageService.createNote().then(
+            function(note) {
+                notes.push(new NoteModule.Note(note));
+                callback();
+            } ,
+            function(err) {window.alert(err)});
     }
 
     function publicToggleShowFinished() {

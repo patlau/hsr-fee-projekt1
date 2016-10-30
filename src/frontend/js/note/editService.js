@@ -4,8 +4,8 @@
 
 NoteModule.editService = (function() {
 
-    function saveNote(note) {
-        NoteModule.storageService.saveNote(note);
+    function saveNote(note, callback) {
+        NoteModule.storageService.saveNote(note).then(callback(), function(err) {window.alert(err)});
     }
 
     return {
