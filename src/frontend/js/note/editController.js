@@ -6,7 +6,7 @@ NoteModule.editController = (function() {
 
     var note = null;
 
-    function displayEditPage(aNote) {
+    function displayEditView(aNote) {
         note = aNote;
         handlebarModule.loadTemplate("main", "edit-template", note);
         $("#cancel").on("click", function() {
@@ -24,7 +24,7 @@ NoteModule.editController = (function() {
     }
 
     return {
-        display: displayEditPage
+        display: displayEditView
     };
 
 })();

@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var ghPages = require('gulp-gh-pages');
 var args = require('yargs').argv;
 var runSequence = require('run-sequence');
 var express = require('gulp-express');
@@ -52,7 +51,7 @@ gulp.task('copy:fonts', function() {
 });
 
 gulp.task('copy:src', function () {
-    return gulp.src([dirs.src + '/**/*'])
+    return gulp.src([dirs.src + '/**/*', '!**/*aboutService.js'])
         .pipe(gulp.dest(dirs.dist));
 });
 
@@ -79,18 +78,14 @@ gulp.task('copy:about', function () {
     // Read the settings from the right file
 
     // Replace each placeholder with the correct value for the variable.
-    gulp.src('src/js/aboutService.js')
-        .pipe(plugins.replace({
-            patterns: [
-                { match: 'BUILD', replacement: build },
-                { match: 'COMMIT', replacement: commit },
-                { match: 'BRANCH', replacement: branch },
-                { match: 'PROJECT', replacement: project },
-                { match: 'COMMITTER', replacement: committer },
-                { match: 'DATETIME', replacement: datetime }
-            ]
-        }))
-        .pipe(gulp.dest(dirs.dist + '/frontend/js/'));
+    gulp.src(dirs.src + '/**/*aboutService.js')
+        .pipe(plugins.replace('@@BUILD', build))
+        .pipe(plugins.replace('@@COMMITTER', committer))
+        .pipe(plugins.replace('@@COMMIT', commit))
+        .pipe(plugins.replace('@@BRANCH', branch))
+        .pipe(plugins.replace('@@PROJECT', project))
+        .pipe(plugins.replace('@@DATETIME', datetime))
+        .pipe(gulp.dest(dirs.dist));
 });
 
 gulp.task('build', function (done) {
@@ -116,8 +111,4 @@ gulp.task('start', ['build'], function() {
 
 });
 
-gulp.task('deploy', function() {
-    return gulp.src('./dist/**/*')
-        .pipe(ghPages());
-});
 

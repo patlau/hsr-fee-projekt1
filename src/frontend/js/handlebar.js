@@ -2,7 +2,7 @@
 /*global Handlebars, $ */
 /*jshint unused:false*/
 
-var handlebarModule = (function() {
+var handlebarModule = (function($) {
 
     /* ==========================================================================
      Variables
@@ -67,7 +67,7 @@ var handlebarModule = (function() {
             }
         });
         Handlebars.registerHelper('date_iso_helper', function(date) {
-            if(date === null || date === undefined || date === '') {
+            if(!(date instanceof Date)) {
                 return '';
             }
             return date.toDateISOString();
@@ -87,4 +87,4 @@ var handlebarModule = (function() {
         loadTemplate: loadTemplate
     };
 
-})();
+})(jQuery);

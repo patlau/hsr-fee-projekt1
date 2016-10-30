@@ -9,19 +9,20 @@ NoteModule.listController = (function(listService, $) {
     }
 
     function refreshList() {
-        listService.loadNotes();
         updateListTemplate();
     }
 
-    function displayListPage() {
+    function displayListView() {
 
+        // Initial load of all notes
         listService.loadNotes();
 
+        // Load and display templates
         handlebarModule.loadTemplate("", "list-entry-template", {});
         handlebarModule.loadTemplate("main", "master-template", {});
-
         updateListTemplate();
 
+        // Register event handlers
         $( ".sortButton" ).on( "click", function() {
 
             let sortBy = $(this).data().sortBy;
@@ -29,11 +30,7 @@ NoteModule.listController = (function(listService, $) {
             listService.toggleSortBy(sortBy);
             updateListTemplate();
 
-            console.log("SORT: " + sortBy + " " + listService.getSortOrder());
-
-            // Update sort icon
-            $(this).find('i').toggleClass('fa-sort-asc', listService.getSortOrder() === 1);
-            $(this).find('i').toggleClass('fa-sort-desc', listService.getSortOrder() === 0);
+            setSortIcon(listService.getOptions());
 
             // Show or hide sort icon
             $('.sortButton > i').addClass('hidden');
@@ -59,16 +56,39 @@ NoteModule.listController = (function(listService, $) {
             console.log("Edit: " + noteId);
             let note = listService.getNote(noteId);
             NoteModule.editController.display(note);
-        })
+        });
         $('#list').on('click', 'input[type=checkbox]', function() {
             let noteId = $(this).closest("tr").data().noteId;
             console.log("Done: " + noteId);
             listService.toggleDone(noteId);
-        })
+        });
+
+        // Initial view states
+        let options = listService.getOptions();
+        if(options.showFinished) {
+            $('#showFinished').addClass('down');
+        } else {
+            $('#showFinished').removeClass('down');
+        }
+        setSortIcon(options);
+    }
+
+    function setSortIcon(options) {
+        // Disable icon on all sort buttons
+        $('.sortButton i').addClass('hidden');
+
+        // Find button for current sort order
+        let button = $('button[data-sort-by=' + options.sortBy + ']');
+
+        // Show sort icon for button
+        let icon = button.find('i');
+        icon.toggleClass('fa-sort-asc', options.sortOrder === 1);
+        icon.toggleClass('fa-sort-desc', options.sortOrder === 0);
+        icon.removeClass('hidden');
     }
 
     return {
-        display: displayListPage
+        display: displayListView
     };
 
 })(NoteModule.listService, jQuery);

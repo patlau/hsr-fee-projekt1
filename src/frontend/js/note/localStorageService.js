@@ -36,7 +36,7 @@ NoteModule.storageService = (function(){
 
     var notes = null;
 
-    function loadNotes() {
+    function publicLoadNotes() {
         notes = JSON.parse(localStorage.getItem("notes"));
         if(notes === null) {
             notes = notesJson;
@@ -45,7 +45,7 @@ NoteModule.storageService = (function(){
         return notes;
     }
 
-    function saveNotes() {
+    function privateSaveNotes() {
         if(!notes) {
             return;
         }
@@ -55,24 +55,17 @@ NoteModule.storageService = (function(){
         localStorage.setItem("notes", json);
     }
 
-    function openNotes() {
-        if(!notes) {
-            loadNotes();
-        }
-        return notes.filter( each => !each.done );
-    }
-
-    function saveNote(note) {
+    function publicSaveNote(note) {
         if(!notes)
             return;
         let idx = notes.findIndex(each => {return each.id === note.id});
         if(idx) {
             notes[idx] = note;
         }
-        saveNotes();
+        privateSaveNotes();
     }
 
-    function createNote() {
+    function publicCreateNote() {
         let note = {id: notes.length + 1};
         notes.push(note);
         saveNote(note);
@@ -80,10 +73,9 @@ NoteModule.storageService = (function(){
     }
 
     return {
-        findAllNotes: loadNotes,
-        findOpenNotes: openNotes,
-        saveNote: saveNote,
-        createNote: createNote,
+        loadNotes: publicLoadNotes,
+        saveNote: publicSaveNote,
+        createNote: publicCreateNote,
     };
 
 })();

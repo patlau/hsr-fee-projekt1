@@ -10,9 +10,18 @@ NoteModule.listService = (function() {
         showFinished: 0 // Do not show done Notes by default
     };
 
+    // Return copy of current list options
+    function publicGetOptions() {
+        return {
+            sortOrder: listOptions.sortOrder,
+            sortBy: listOptions.sortBy,
+            showFinished: listOptions.showFinished
+        };
+    }
+
     var notes = []; // Filtered notes
 
-    function toggleSortBy(prop) {
+    function publicToggleSortBy(prop) {
         if (listOptions.sortBy === prop) {
             listOptions.sortOrder = (listOptions.sortOrder === 1) ? 0 : 1;
         } else {
@@ -38,48 +47,44 @@ NoteModule.listService = (function() {
         });
     }
 
-    function privateLoadNotes() {
-        if(listOptions.showFinished === 1) {
-            return NoteModule.storageService.findAllNotes();
-        } else {
-            return NoteModule.storageService.findOpenNotes(true);
-        }
-    }
-
     // Load notes, convert to Note objects and apply filter and sort order
-    function loadNotes() {
-        notes = [];
-        let data = privateLoadNotes();
-        for (let item of data) {
-            let note = new NoteModule.Note(item);
-            notes.push(note);
+    function publicLoadNotes() {
+        console.log('LoadNotes: ' + JSON.stringify(notes));
+        if (!notes || notes.length === 0) {
+            console.log('LOAD');
+            let data = NoteModule.storageService.loadNotes();
+            for (let item of data) {
+                let note = new NoteModule.Note(item);
+                notes.push(note);
+            }
         }
-        sortNotes();
     }
 
-    function addNote() {
+    function publicAddNote() {
         let note = NoteModule.storageService.createNote();
         notes.push(new NoteModule.Note(note));
     }
 
-    function getSortOrder() {
-        return listOptions.sortOrder;
-    }
-
-    function toggleShowFinished() {
+    function publicToggleShowFinished() {
         listOptions.showFinished = listOptions.showFinished === 1 ? 0 : 1;
     }
 
-    function getNotes() {
-        return notes;
+    function publicGetNotes() {
+        console.log('GetNotes ' + JSON.stringify(listOptions));
+        sortNotes();
+        if(listOptions.showFinished) {
+            return notes;
+        } else {
+            return notes.filter(each => !each.done);
+        }
     }
 
-    function getNote(id) {
+    function publicGetNote(id) {
         return notes.find(each => each.id === id);
     }
 
-    function toggleDone(id) {
-        let note = getNote(id);
+    function publicToggleDone(id) {
+        let note = publicGetNote(id);
         if(note) {
             note.done = note.done ? false : true;
             NoteModule.storageService.saveNote(note);
@@ -87,15 +92,14 @@ NoteModule.listService = (function() {
     }
 
     return {
-        loadNotes: loadNotes,
-        addNote: addNote,
-        getSortOrder: getSortOrder,
-        toggleShowFinished: toggleShowFinished,
-        getNotes: getNotes,
-        getNote: getNote,
-        sortNotes: sortNotes,
-        toggleSortBy: toggleSortBy,
-        toggleDone: toggleDone
+        loadNotes: publicLoadNotes,
+        addNote: publicAddNote,
+        toggleShowFinished: publicToggleShowFinished,
+        getNotes: publicGetNotes,
+        getNote: publicGetNote,
+        toggleSortBy: publicToggleSortBy,
+        toggleDone: publicToggleDone,
+        getOptions: publicGetOptions
     };
 
 })();
