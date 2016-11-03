@@ -2,7 +2,7 @@
 /*global Handlebars, $ */
 /*jshint unused:false*/
 
-var StyleModule = (function() {
+var StyleModule = (function($) {
 
     /* ==========================================================================
      Variables
@@ -34,4 +34,4 @@ var StyleModule = (function() {
         applyStyle: applyStyle
     };
 
-})();
+})(jQuery);

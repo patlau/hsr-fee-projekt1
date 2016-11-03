@@ -36,16 +36,21 @@ NoteModule.storageService = (function(){
 
     var notes = null;
 
-    function loadNotes() {
+    function publicLoadNotes() {
         notes = JSON.parse(localStorage.getItem("notes"));
         if(notes === null) {
             notes = notesJson;
         }
-        console.log(notes);
-        return notes;
+        return new Promise(function(resolve, reject) {
+            if (notes) {
+                resolve(notes);
+            } else {
+                reject(Error("No notes loaded"));
+            }
+        });
     }
 
-    function saveNotes() {
+    function privateSaveNotes() {
         if(!notes) {
             return;
         }
@@ -55,35 +60,48 @@ NoteModule.storageService = (function(){
         localStorage.setItem("notes", json);
     }
 
-    function openNotes() {
-        if(!notes) {
-            loadNotes();
+    function privateSaveNote(note) {
+        if(notes) {
+            let idx = notes.findIndex(each => {return each.id === note.id});
+            if(idx) {
+                notes[idx] = note;
+            }
+            privateSaveNotes();
         }
-        return notes.filter( each => !each.done );
-    }
-
-    function saveNote(note) {
-        if(!notes)
-            return;
-        let idx = notes.findIndex(each => {return each.id === note.id});
-        if(idx) {
-            notes[idx] = note;
-        }
-        saveNotes();
-    }
-
-    function createNote() {
-        let note = {id: notes.length + 1};
-        notes.push(note);
-        saveNote(note);
         return note;
     }
 
+    function publicSaveNote(note) {
+        let savedNote = privateSaveNote(note);
+        return new Promise(function(resolve, reject) {
+            if (savedNote.id) {
+                resolve(savedNote);
+            } else {
+                reject(Error("Note not saved"));
+            }
+        });
+    }
+
+    function publicCreateNote() {
+        let note = null;
+        if(notes) {
+            note = {id: notes.length + 1};
+            notes.push(note);
+            note = privateSaveNote(note);
+        }
+        return new Promise(function(resolve, reject) {
+            if (note.id) {
+                resolve(note);
+            } else {
+                reject(Error("Note not created"));
+            }
+        });
+    }
+
     return {
-        allNotes: loadNotes,
-        openNotes: openNotes,
-        saveNote: saveNote,
-        createNote: createNote,
+        loadNotes: publicLoadNotes,
+        saveNote: publicSaveNote,
+        createNote: publicCreateNote,
     };
 
 })();

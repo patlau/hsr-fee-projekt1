@@ -10,9 +10,18 @@ NoteModule.listService = (function() {
         showFinished: 0 // Do not show done Notes by default
     };
 
+    // Return copy of current list options
+    function publicGetOptions() {
+        return {
+            sortOrder: listOptions.sortOrder,
+            sortBy: listOptions.sortBy,
+            showFinished: listOptions.showFinished
+        };
+    }
+
     var notes = []; // Filtered notes
 
-    function toggleSortBy(prop) {
+    function publicToggleSortBy(prop) {
         if (listOptions.sortBy === prop) {
             listOptions.sortOrder = (listOptions.sortOrder === 1) ? 0 : 1;
         } else {
@@ -38,55 +47,80 @@ NoteModule.listService = (function() {
         });
     }
 
-    function privateLoadNotes() {
-        if(listOptions.showFinished === 1) {
-            return NoteModule.storageService.allNotes();
+    // Load notes
+    function publicLoadNotes(callback) {
+        console.log('LoadNotes: ' + JSON.stringify(notes));
+        if (!notes || notes.length === 0) {
+            console.log('LOAD');
+            NoteModule.storageService.loadNotes().then(
+                function(data) {
+                    for (let item of data) {
+                        let note = new NoteModule.Note(item);
+                        notes.push(note);
+                    }
+                    console.log(notes);
+                    if(callback) callback();
+                },
+                function(err) {
+                    console.log(err);
+                });
         } else {
-            return NoteModule.storageService.openNotes(true);
+            if(callback) callback();
         }
     }
 
-    // Load notes, convert to Note objects and apply filter and sort order
-    function loadNotes() {
-        notes = [];
-        let data = privateLoadNotes();
-        for (let item of data) {
-            let note = new NoteModule.Note(item);
-            notes.push(note);
-        }
-        sortNotes();
+    function publicAddNote(callback) {
+        let note = NoteModule.storageService.createNote().then(
+            function(note) {
+                notes.push(new NoteModule.Note(note));
+                if(callback) callback();
+            } ,
+            function(err) {window.alert(err)});
     }
 
-    function addNote() {
-        let note = NoteModule.storageService.createNote();
-        notes.push(new NoteModule.Note(note));
-    }
-
-    function getSortOrder() {
-        return listOptions.sortOrder;
-    }
-
-    function toggleShowFinished() {
+    function publicToggleShowFinished() {
         listOptions.showFinished = listOptions.showFinished === 1 ? 0 : 1;
     }
 
-    function getNotes() {
-        return notes;
+    function publicGetNotes() {
+        console.log('GetNotes ' + JSON.stringify(listOptions));
+        sortNotes();
+        if(listOptions.showFinished) {
+            return notes;
+        } else {
+            return notes.filter(each => !each.done);
+        }
     }
 
-    function getNote(id) {
+    function publicGetNote(id) {
         return notes.find(each => each.id === id);
     }
 
+    /*
+     * TODO: If Storage Service fails, the done state on my cache is invalid
+     */
+    function publicSetDone(id, value, callback) {
+        let note = publicGetNote(id);
+        if(note) {
+            note.done = value ? true : false;
+            console.log("DONE: " + note.done + " FOR " + note.id);
+            NoteModule.storageService.saveNote(note).then(
+                function(note) {
+                    if(callback) callback();
+                } ,
+                function(err) {window.alert(err)});
+        }
+    }
+
     return {
-        loadNotes: loadNotes,
-        addNote: addNote,
-        getSortOrder: getSortOrder,
-        toggleShowFinished: toggleShowFinished,
-        getNotes: getNotes,
-        getNote: getNote,
-        sortNotes: sortNotes,
-        toggleSortBy: toggleSortBy
+        loadNotes: publicLoadNotes,
+        addNote: publicAddNote,
+        toggleShowFinished: publicToggleShowFinished,
+        getNotes: publicGetNotes,
+        getNote: publicGetNote,
+        toggleSortBy: publicToggleSortBy,
+        setDone: publicSetDone,
+        getOptions: publicGetOptions
     };
 
 })();

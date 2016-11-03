@@ -2,15 +2,15 @@
 /*global Handlebars, $, NoteModule, handlebarModule */
 /*jshint unused:false*/
 
-NoteModule.editPage = (function() {
+NoteModule.editController = (function() {
 
     var note = null;
 
-    function displayEditPage(aNote) {
+    function displayEditView(aNote) {
         note = aNote;
         handlebarModule.loadTemplate("main", "edit-template", note);
         $("#cancel").on("click", function() {
-           NoteModule.listPage.display();
+           NoteModule.listController.display();
         });
         $("#ok").on("click", function() {
             note.title = $("#title").val();
@@ -18,13 +18,15 @@ NoteModule.editPage = (function() {
             note.importance = $("#importance").val();
             note.dueDate = $("#dueDate").val();
 
-            NoteModule.editService.saveNote(note);
-            NoteModule.listPage.display();
+            NoteModule.editService.saveNote(note, function() {
+                console.log('SAVED => Display List Controller');
+                NoteModule.listController.display();
+            });
         });
     }
 
     return {
-        display: displayEditPage
+        display: displayEditView
     };
 
 })();

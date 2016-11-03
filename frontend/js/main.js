@@ -2,24 +2,24 @@
 /*global Handlebars, $, aboutModule, StyleModule, NoteModule, handlebarModule */
 /*jshint unused:false*/
 
-(function() {
+(function($, handlebarModule, noteModule, styleModule) {
 
     /* ==========================================================================
      Module initializing
      ========================================================================== */
 
-    function initModule() {
+    function initModules() {
         handlebarModule.initHandlebars();
         handlebarModule.loadTemplate("footer", "app-footer-template", aboutModule.about);
-        NoteModule.listPage.display();
-        StyleModule.applyStyle("blackwhite");
+        noteModule.listController.display();
+        styleModule.applyStyle("blackwhite");
     }
 
     $(document).ready(function () {
         console.log("Start Main Module");
-        initModule();
+        initModules();
     });
 
-})();
+})(jQuery, handlebarModule, NoteModule, StyleModule);
 
 
