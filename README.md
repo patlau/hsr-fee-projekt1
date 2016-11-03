@@ -1,38 +1,15 @@
 # Projekt 1
 
-Based on [HTML5 Boilerplate](https://html5boilerplate.com)
-
-**Go to https://patlau.github.io/hsr-fee-projekt1/ to try out.**
-
-Travis Build: https://travis-ci.org/patlau/hsr-fee-projekt1
-
 ## Build instructions
 
 1. Run "npm install"
-2. Run "npm run-script build"
+2. Run "npm run-script start"
+3. Open "http://localhost:3000" in Browser
 
-Deploying to Github Pages:
+## Travis Build
 
-1. Run Build
-2. Run "npm run-script deploy"
+https://travis-ci.org/patlau/hsr-fee-projekt1
 
-Test with WebStorm:
-
-1. Run Build
-2. Open dist/index.html in browser from WebStorm
-
-## Source
-
-- HTML: src/index.html
-- CSS: src/css/main.css
-- JS: src/js/main.css
-
-## Documentation
-
-Take a look at the [documentation table of contents](dist/doc/TOC.md).
-This documentation is bundled with the project, which makes it readily
-available for offline reading and provides a useful starting point for
-any documentation you want to write about your project.
 
 ## License
 

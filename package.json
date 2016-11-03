@@ -9,10 +9,8 @@
   "private": true,
   "scripts": {
     "build": "gulp build",
-    "test": "gulp archive && mocha --reporter spec --timeout 5000",
-    "watch": "gulp watch",
-    "deploy": "gulp deploy",
-    "start": "node src/app.js"
+    "lint": "gulp lint:js",
+    "start": "gulp start"
   },
   "main": "app.js",
   "dependencies": {
