@@ -22,9 +22,9 @@ gulp.task('copy', [
     'copy:src',
     'copy:libs',
     'copy:css-libs',
-    'copy:license',
     'copy:fonts',
-    'copy:about'
+    'copy:about',
+    'copy:general'
 ]);
 
 
@@ -34,8 +34,8 @@ gulp.task('copy:libs', function () {
 });
 
 
-gulp.task('copy:license', function () {
-    return gulp.src('LICENSE.txt')
+gulp.task('copy:general', function () {
+    return gulp.src(['LICENSE.txt', 'package.json'])
                .pipe(gulp.dest(dirs.dist));
 });
 

@@ -1,10 +1,14 @@
 {
   "name": "projekt1",
   "version": "0.0.1",
+  "description": "HSR FEE Projekt1",
   "homepage": "",
   "license": {
     "type": "MIT",
     "url": "https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt"
+  },
+  "engines": {
+    "node": ">=6.9.0"
   },
   "private": true,
   "scripts": {
@@ -45,9 +49,6 @@
     "mocha": "^2.2.4",
     "run-sequence": "^1.0.2",
     "yargs": "^5.0.0"
-  },
-  "engines": {
-    "node": ">=0.10.0"
   },
   "h5bp-configs": {
     "directories": {
