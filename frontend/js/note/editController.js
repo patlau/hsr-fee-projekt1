@@ -16,8 +16,8 @@ NoteModule.editController = (function() {
             note.title = $("#title").val();
             note.description = $("#description").val();
             note.importance = $("#importance").val();
-            console.log($("#dueDate"), $("#dueDate").val());
-            note.dueDate = $("#dueDate").val();
+            console.log($("#due"), $("#due").val());
+            note.dueDate = $("#due").val();
 
             NoteModule.editService.saveNote(note, function() {
                 NoteModule.listController.display();
