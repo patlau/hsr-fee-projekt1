@@ -13,7 +13,8 @@ var NoteModule = function() {
     class Note {
 
         constructor(data = {}) {
-            this._id = data.id || data._id;
+            console.log('NOTE', JSON.stringify(this));
+            this._id = data._id || data.id || 0;
             this.title = data.title || "Neue Notiz";
             this.description = data.description || "";
             this.importance = data.importance || 0;

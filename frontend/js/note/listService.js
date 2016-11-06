@@ -2,7 +2,7 @@
 /*global Handlebars, $, NoteModule, storageModule */
 /*jshint unused:false*/
 
-NoteModule.listService = (function() {
+NoteModule.listService = (function($, storageService) {
 
     var listOptions = {
         sortOrder: 1, // Default Note sort order
@@ -19,7 +19,12 @@ NoteModule.listService = (function() {
         };
     }
 
-    var notes = []; // Filtered notes
+    var notes = [];
+
+
+    function noteFactory(data) {
+        return new NoteModule.Note(data);
+    }
 
     function publicToggleSortBy(prop) {
         if (listOptions.sortBy === prop) {
@@ -49,15 +54,11 @@ NoteModule.listService = (function() {
 
     // Load notes
     function publicLoadNotes(callback) {
-        console.log('LoadNotes: ' + JSON.stringify(notes));
         if (!notes || notes.length === 0) {
-            console.log('LOAD');
-            NoteModule.storageService.loadNotes().then(
+            storageService.loadNotes().then(
                 function(data) {
-                    for (let item of data) {
-                        let note = new NoteModule.Note(item);
-                        notes.push(note);
-                    }
+                    console.log('***LOAD', data);
+                    data.forEach(each => notes.push(noteFactory(each)));
                     console.log(notes);
                     if(callback) callback();
                 },
@@ -70,11 +71,15 @@ NoteModule.listService = (function() {
     }
 
     function publicAddNote(callback) {
-        let note = NoteModule.storageService.createNote().then(
-            function(note) {
-                notes.push(new NoteModule.Note(note));
-                if(callback) callback();
-            } ,
+        let note = storageService.createNote().then(
+            function(data) {
+                let note = noteFactory(data);
+                let note2 = notes.find(each => each.id === note.id);
+                if(!note2) {
+                    notes.push(note);
+                    if(callback) callback();
+                }
+            },
             function(err) {window.alert(err)});
     }
 
@@ -83,7 +88,7 @@ NoteModule.listService = (function() {
     }
 
     function publicGetNotes() {
-        console.log('GetNotes ' + JSON.stringify(listOptions));
+        console.log('GetNotes', listOptions, notes);
         sortNotes();
         if(listOptions.showFinished) {
             return notes;
@@ -104,12 +109,36 @@ NoteModule.listService = (function() {
         if(note) {
             note.done = value ? true : false;
             console.log("DONE: " + note.done + " FOR " + note.id);
-            NoteModule.storageService.saveNote(note).then(
+            storageService.saveNote(note).then(
                 function(note) {
                     if(callback) callback();
                 } ,
                 function(err) {window.alert(err)});
         }
+    }
+
+    var poll = false;
+    function publicPollNote(callback) {
+        console.log('POLL', poll);
+        // Allow only one polling request
+        if(poll) return;
+        poll = true;
+        storageService.pollNote().then(
+            function(data) {
+                console.log('EVENT', data);
+                poll = false;
+                let note = noteFactory(data);
+                let note2 = notes.find(each => each.id === note.id);
+                if(!note2) {
+                    notes.push(note);
+                    if(callback) callback();
+                }
+                publicPollNote(callback);
+            },
+            function(err) {
+                console.log('EVENT-ERROR', err);
+                poll = false;
+            });
     }
 
     return {
@@ -120,8 +149,9 @@ NoteModule.listService = (function() {
         getNote: publicGetNote,
         toggleSortBy: publicToggleSortBy,
         setDone: publicSetDone,
-        getOptions: publicGetOptions
+        getOptions: publicGetOptions,
+        pollNote: publicPollNote
     };
 
-})();
+})(jQuery, NoteModule.storageService);
 

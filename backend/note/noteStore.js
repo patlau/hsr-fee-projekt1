@@ -15,6 +15,7 @@ function publicAdd(data, callback)
 {
     var note = new Note(data);
     db.insert(note, function(err, newDoc){
+        console.log(JSON.stringify(newDoc));
         if(callback){
             callback(err, newDoc);
         }

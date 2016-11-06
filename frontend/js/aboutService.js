@@ -15,7 +15,7 @@ var aboutModule = (function(){
         build: 'localbuild',
         commit: '',
         branch: 'master',
-        datetime: '2016-11-06T08:35:03.179Z'
+        datetime: '2016-11-06T11:21:16.674Z'
     };
 
     return {

@@ -1,4 +1,5 @@
 var store = require("./noteStore");
+var events = require("../event").events;
 
 module.exports.getNotes = function(req, res){
     store.all(function(err, notes) {
@@ -29,6 +30,8 @@ module.exports.createNote = function(req, res)
                 res.json(note);
             }
         });
+        console.log('EMIT ' + note);
+        events.emit('note', note);
     });
 };
 
@@ -49,6 +52,17 @@ module.exports.deleteNote =  function (req, res)
     store.delete(  req.params.id, function(err, note) {
         res.format({
             'application/json': function(){
+                res.json(note);
+            }
+        });
+    });
+};
+
+module.exports.pollNote = function(req, res){
+    events.once('note', function(note) {
+        console.log('ONCE ' + note);
+        res.format({
+            'application/json': function () {
                 res.json(note);
             }
         });
