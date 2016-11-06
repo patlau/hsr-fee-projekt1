@@ -3,14 +3,14 @@
 /*jshint unused:false*/
 NoteModule.storageService = (function($){
 
-    function ajax(metod, url, data, headers) {
+    function ajax(method, url, data, timeout) {
         return $.ajax({
             dataType: "json",
             contentType: "application/json",
-            headers: headers,
-            method: metod,
+            method: method,
             url: url,
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            timeout: timeout || 5000
         });
     }
 
@@ -30,10 +30,16 @@ NoteModule.storageService = (function($){
         return ajax("POST", "/notes/", note);
     }
 
+    function publicPollNote() {
+        console.log('REST>>POLL');
+        return ajax('GET', '/notes/poll', {}, 60000);
+    }
+
     return {
         loadNotes: publicLoadNotes,
         saveNote: publicSaveNote,
         createNote: publicCreateNote,
+        pollNote: publicPollNote
     };
 
 })(jQuery);

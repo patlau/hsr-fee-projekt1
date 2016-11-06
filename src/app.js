@@ -25,7 +25,6 @@ app.use(require("method-override")(function(req, res){
 }));
 app.use(logger);
 
-//app.use("/", require('./backend/indexRoutes.js'));
 app.use("/", express.static(__dirname + '/frontend'));
 app.use("/notes", require('./backend/note/noteRoutes.js'));
 app.use(function(req, res) {

@@ -2,30 +2,33 @@
 /*global Handlebars, $, StyleModule, handlebarModule, NoteModule */
 /*jshint unused:false*/
 
-NoteModule.listController = (function(listService, $) {
+NoteModule.listController = (function($, handlebarModule, styleModule) {
 
     function updateListTemplate() {
-        handlebarModule.loadTemplate("#list", "list-template", {"notes": listService.getNotes()});
+
+        if($('#list')) {
+            console.log('Updatet LIST');
+        } else {
+            console.log('Dont Update LIST');
+            return;
+        }
+        handlebarModule.loadTemplate("#list", "list-template", {"notes": NoteModule.listService.getNotes()});
         // Register event handler must be called always after setting list
         $('#list').on('click', '.edit', function() {
             let noteId = $(this).closest("tr").data().noteId;
             console.log("Edit: " + noteId);
-            let note = listService.getNote(noteId);
+            let note = NoteModule.listService.getNote(noteId);
             NoteModule.editController.display(note);
         });
 
-        // #TODO: Why is this triggered twice?
         $('#list').on('click', 'input[type=checkbox]', function() {
             console.log('clicked', $(this));
             let noteId = $(this).closest("tr").data().noteId;
             let checked = $(this).is(':checked');
             console.log("Done", noteId, checked);
-            listService.setDone(noteId, checked);
+            NoteModule.listService.setDone(noteId, checked);
         });
-    }
-
-    function refreshList() {
-        updateListTemplate();
+        NoteModule.listService.pollNote(updateListTemplate);
     }
 
     function displayListView() {
@@ -39,10 +42,10 @@ NoteModule.listController = (function(listService, $) {
 
             let sortBy = $(this).data().sortBy;
 
-            listService.toggleSortBy(sortBy);
+            NoteModule.listService.toggleSortBy(sortBy);
             updateListTemplate();
 
-            setSortIcon(listService.getOptions());
+            setSortIcon(NoteModule.listService.getOptions());
 
             // Show or hide sort icon
             $('.sortButton > i').addClass('hidden');
@@ -50,22 +53,22 @@ NoteModule.listController = (function(listService, $) {
 
         });
         $( "#newNote" ).on( "click", function() {
-            listService.addNote(function() {
-                refreshList();
+            NoteModule.listService.addNote(function() {
+                updateListTemplate();
             });
         });
         $( "#showFinished" ).on( "click", function() {
-            listService.toggleShowFinished();
+            NoteModule.listService.toggleShowFinished();
             $(this).toggleClass("down");
-            refreshList();
+            updateListTemplate();
         });
         $( "#styleSelection" ).on( "change", function() {
             //console.log( "styleSelection was changed" );
-            StyleModule.applyStyle($(this).val());
+            styleModule.applyStyle($(this).val());
         });
 
         // Initial view states
-        let options = listService.getOptions();
+        let options = NoteModule.listService.getOptions();
         if(options.showFinished) {
             $('#showFinished').addClass('down');
         } else {
@@ -74,7 +77,8 @@ NoteModule.listController = (function(listService, $) {
         setSortIcon(options);
 
         // Initial load of all notes
-        listService.loadNotes(updateListTemplate);
+        NoteModule.listService.loadNotes(updateListTemplate);
+
     }
 
     function setSortIcon(options) {
@@ -95,4 +99,4 @@ NoteModule.listController = (function(listService, $) {
         display: displayListView
     };
 
-})(NoteModule.listService, jQuery);
+})(jQuery, handlebarModule, StyleModule);
