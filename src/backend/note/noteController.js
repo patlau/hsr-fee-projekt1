@@ -30,8 +30,7 @@ module.exports.createNote = function(req, res)
                 res.json(note);
             }
         });
-        console.log('EMIT ' + note);
-        events.emit('note', note);
+        events.emit('note', {event: 'created', note: note});
     });
 };
 
@@ -44,6 +43,7 @@ module.exports.updateNote =  function (req, res)
                 res.json(note);
             }
         });
+        events.emit('note', {event: 'updated', note: note});
     });
 };
 
@@ -55,6 +55,7 @@ module.exports.deleteNote =  function (req, res)
                 res.json(note);
             }
         });
+        events.emit('note', {event: 'deleted', note: note});
     });
 };
 

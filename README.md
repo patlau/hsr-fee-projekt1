@@ -8,9 +8,9 @@
 
 ## Features
 * Create, Edit and Delete Notes
-* Polling for new Notes
 * Sorting by attribute asc/desc
 * Filter by finished date
+* Polling for Note changes
 * Two styles (only background color currently)
 * Multiple modules
 * Node.js Express server with nedb
