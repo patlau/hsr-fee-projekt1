@@ -115,27 +115,44 @@ NoteModule.listService = (function($, storageService) {
         }
     }
 
+    function eventHandler(event, noteData, callback) {
+        let note = noteFactory(noteData);
+        let note2 = notes.find(each => each.id === note.id);
+        if(event === 'created' && !note2) {
+            notes.push(note);
+            if(callback) callback();
+        }
+        if(event === 'deleted' && note2) {
+            notes = notes.filter(each => each !== note2);
+            if(callback) callback();
+        }
+        if(event === 'updated' && note2) {
+            let idx = notes.findIndex(each => each.id === note.id);
+            notes[idx] = note;
+            if(callback) callback();
+        }
+    }
+
     var poll = false;
     function publicPollNote(callback) {
         console.log('POLL', poll);
-        // Allow only one polling request
-        if(poll) return;
+        if(poll) return; // Allow only one polling request
         poll = true;
         storageService.pollNote().then(
             function(data) {
                 console.log('EVENT', data);
-                poll = false;
-                let note = noteFactory(data);
-                let note2 = notes.find(each => each.id === note.id);
-                if(!note2) {
-                    notes.push(note);
-                    if(callback) callback();
+                if(data.event && data.note) {
+                    eventHandler(data.event, data.note, callback);
                 }
+                poll = false;
                 publicPollNote(callback);
             },
             function(err) {
                 console.log('EVENT-ERROR', err);
                 poll = false;
+                if(err.status === 0 && err.statusText === 'timeout') {
+                    publicPollNote(callback);
+                }
             });
     }
 
