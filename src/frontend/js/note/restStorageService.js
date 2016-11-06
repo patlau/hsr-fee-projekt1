@@ -35,11 +35,16 @@ NoteModule.storageService = (function($){
         return ajax('GET', '/notes/poll', {}, 60000);
     }
 
+    function publicDeleteNote(note) {
+        return ajax("DELETE", "/notes/" + note.id);
+    }
+
     return {
         loadNotes: publicLoadNotes,
         saveNote: publicSaveNote,
         createNote: publicCreateNote,
-        pollNote: publicPollNote
+        pollNote: publicPollNote,
+        deleteNote: publicDeleteNote
     };
 
 })(jQuery);

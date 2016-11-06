@@ -21,7 +21,6 @@ NoteModule.listService = (function($, storageService) {
 
     var notes = [];
 
-
     function noteFactory(data) {
         return new NoteModule.Note(data);
     }
@@ -41,8 +40,7 @@ NoteModule.listService = (function($, storageService) {
         let prop = listOptions.sortBy || 'createdDate';
         let ascending = listOptions.sortOrder;
 
-        console.log('SORTING ' + prop + ' => ' + ascending);
-
+        //console.log('SORTING ' + prop + ' => ' + ascending);
         notes = notes.sort(function(a, b) {
             if (ascending) {
                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
@@ -141,6 +139,18 @@ NoteModule.listService = (function($, storageService) {
             });
     }
 
+    function publicDeleteNote(id, callback) {
+        let note = publicGetNote(id);
+        storageService.deleteNote(note).then(
+            function() {
+                notes = notes.filter(each => each.id !== note.id);
+                console.log("***DELETE", note, notes);
+                if(callback) callback();
+            },
+            function(err) {console.log(err); }
+        )
+    }
+
     return {
         loadNotes: publicLoadNotes,
         addNote: publicAddNote,
@@ -150,7 +160,8 @@ NoteModule.listService = (function($, storageService) {
         toggleSortBy: publicToggleSortBy,
         setDone: publicSetDone,
         getOptions: publicGetOptions,
-        pollNote: publicPollNote
+        pollNote: publicPollNote,
+        deleteNote: publicDeleteNote
     };
 
 })(jQuery, NoteModule.storageService);

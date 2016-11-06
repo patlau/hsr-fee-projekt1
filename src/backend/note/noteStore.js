@@ -37,7 +37,7 @@ function publicGet(id, callback)
 
 function publicAll(callback)
 {
-    db.find({}, function (err, docs) {
+    db.find({state: {$ne: "DELETED"}}, function (err, docs) {
         callback( err, docs);
     });
 }
