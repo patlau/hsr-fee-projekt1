@@ -10,12 +10,12 @@
 var aboutModule = (function(){
 
     var about = {
-        project: 'projekt1',
-        committer: '',
-        build: 'localbuild',
-        commit: '',
+        project: 'patlau/hsr-fee-projekt1',
+        committer: 'travis@build.local',
+        build: '45',
+        commit: '8b44943ca0752dc4b03cc945cc794b047cb04dab',
         branch: 'master',
-        datetime: '2016-11-06T17:08:08.842Z'
+        datetime: '2016-11-06T19:06:29.034Z'
     };
 
     return {

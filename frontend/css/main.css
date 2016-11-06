@@ -13,6 +13,7 @@ html {
     font-size: 1em;
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
 }
 
 /*
@@ -49,23 +50,18 @@ hr {
 
 body {
     margin: 1em;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
 }
 
 header {
-    align-self: flex-start;
+
 }
 
 main {
-    align-self: stretch;
     height: 100%;
 }
 
 footer {
-    align-self: flex-start;
-    width: 100%;
+    text-align: center;
 }
 
 .toolbar {
@@ -95,7 +91,7 @@ textarea {
 
 /* Notes table styles */
 
-table#notes {
+table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 1em;
@@ -160,54 +156,8 @@ input {
     width: 50%;
 }
 
-/*
- * Toggle Button
- */
-
-button.toggle {
-    background: #ccc;
-    cursor: pointer;
-    border-top: solid 2px #eaeaea;
-    border-left: solid 2px #eaeaea;
-    border-bottom: solid 2px #777;
-    border-right: solid 2px #777;
-    padding: 5px 5px;
-}
-
-button.down {
-    background: #bbb;
-    border-top: solid 2px #777;
-    border-left: solid 2px #777;
-    border-bottom:solid 2px  #eaeaea;
-    border-right: solid 2px #eaeaea;
-}
-
 .content {
     position: relative;
-}
-
-/*
- * STYLES
- */
-
-/*
-button.blackwhite {
-    background-color: #e7e7e7;
-    color: black;
-}
-
-button.color {
-    background-color: #008CBA;
-    color: white;
-}
-*/
-
-.blackwhite {
-    background-color: white;
-}
-
-.color {
-    background-color: #b3d4fc;
 }
 
 
