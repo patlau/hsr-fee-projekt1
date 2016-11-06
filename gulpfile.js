@@ -68,11 +68,11 @@ gulp.task('lint:js', function () {
 
 gulp.task('copy:about', function () {
     // Get the environment from the command line
-    var build = args.TRAVIS_BUILD_NUMBER || 'localbuild';
-    var commit = args.TRAVIS_COMMIT || '';
-    var branch = args.TRAVIS_BRANCH || 'master';
-    var project = args.TRAVIS_REPO_SLUG || 'projekt1';
-    var committer = args.COMMIT_AUTHOR_EMAIL || '';
+    var build = process.env.TRAVIS_BUILD_NUMBER || 'localbuild';
+    var commit = process.env.TRAVIS_COMMIT || '';
+    var branch = process.env.TRAVIS_BRANCH || 'master';
+    var project = process.env.TRAVIS_REPO_SLUG || 'projekt1';
+    var committer = process.env.COMMIT_AUTHOR_EMAIL || '';
     var datetime = new Date().toISOString();
 
     // Read the settings from the right file

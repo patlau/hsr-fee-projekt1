@@ -4,19 +4,18 @@
 NoteModule.storageService = (function($){
 
     function ajax(method, url, data, timeout) {
-        return $.ajax({
+        return $.ajax(url, {
             dataType: "json",
             contentType: "application/json",
             method: method,
-            url: url,
-            data: JSON.stringify(data),
+            data: (data ? JSON.stringify(data) : null),
             timeout: timeout || 5000
         });
     }
 
     function publicLoadNotes() {
         console.log('REST>>GET');
-        return ajax("GET", "/notes/", {});
+        return ajax("GET", "/notes");
     }
 
     function publicSaveNote(note) {
@@ -27,12 +26,12 @@ NoteModule.storageService = (function($){
     function publicCreateNote() {
         let note = {};
         console.log('REST>>POST ' + JSON.stringify(note));
-        return ajax("POST", "/notes/", note);
+        return ajax("POST", "/notes", note);
     }
 
     function publicPollNote() {
         console.log('REST>>POLL');
-        return ajax('GET', '/notes/poll', {}, 60000);
+        return ajax('GET', '/notes/poll', null, 60000);
     }
 
     function publicDeleteNote(note) {

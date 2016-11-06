@@ -64,10 +64,6 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
             $(this).toggleClass("down");
             updateListTemplate();
         });
-        $( "#styleSelection" ).on( "change", function() {
-            //console.log( "styleSelection was changed" );
-            styleModule.applyStyle($(this).val());
-        });
 
         // Initial view states
         let options = NoteModule.listService.getOptions();
@@ -81,6 +77,7 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
         // Initial load of all notes
         NoteModule.listService.loadNotes(updateListTemplate);
 
+        styleModule.init('#styleSwitcher');
     }
 
     function setSortIcon(options) {

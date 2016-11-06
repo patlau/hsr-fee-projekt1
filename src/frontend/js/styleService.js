@@ -4,34 +4,57 @@
 
 var StyleModule = (function($) {
 
-    /* ==========================================================================
-     Variables
-     ========================================================================== */
+    var selectedStyle = null;
+    var styles = [
+        {name: 'Black-and-White', id: 'bw'},
+        {name: 'Blue', id: 'blue'}
+    ];
 
-    var selectedStyle = "blackwhite"; // Default style
+    function isValidStyle(style) {
+        return !!styles.find(each => each.id === style);
+    }
 
+    function publicApplyStyle(style) {
+        if (isValidStyle(style)) {
+            selectedStyle = style;
+            console.log('STYLE', selectedStyle);
+            localStorage.setItem('style', selectedStyle);
+            $('link#theme-css').attr('href', 'css/style-' + selectedStyle + '.css');
+        }
+    }
 
-    /* ==========================================================================
-     Styling
-     ========================================================================== */
+    function publicSelectedStyle() {
+        if(!selectedStyle) {
+            let style = localStorage.getItem('style');
+            if (isValidStyle(style)) {
+                selectedStyle = style;
+            } else {
+                selectedStyle = styles[0].id;
+            }
+        }
+        return selectedStyle;
+    }
 
-    function applyStyle(newStyle) {
-        /*$("button").each(function() {
-            //console.log($(this));
-            //console.log(" Remove: " + selectedStyle + " Add: " + newStyle);
-            $(this).removeClass(selectedStyle);
-            $(this).addClass(newStyle);
+    function publicInit(id) {
+        let selected = publicSelectedStyle();
+        publicApplyStyle(selected);
+        let styleSwitcher = $(id);
+        if(styleSwitcher) {
+            styles.forEach(each => {
+                console.log('ADD', each);
+                styleSwitcher.append($('<option></option>')
+                    .attr('value', each.id).attr('selected', (each.id === selected)).text(each.name))
+            });
+        }
+        styleSwitcher.on( "change", function() {
+            publicApplyStyle($(this).val());
         });
-        */
-        $("body")
-            .removeClass(selectedStyle)
-            .addClass(newStyle);
-
-        selectedStyle = newStyle;
     }
 
     return {
-        applyStyle: applyStyle
+        selected: publicSelectedStyle,
+        apply: publicApplyStyle,
+        init: publicInit
     };
 
 })(jQuery);
