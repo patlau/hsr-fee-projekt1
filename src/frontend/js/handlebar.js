@@ -59,18 +59,18 @@ var handlebarModule = (function($) {
             } else {
                 dateObject = new Date(date);
             }
-            let now = Date.now();
-            if(now.valueOf() === dateObject.valueOf()) {
-                return "[Today]";
+            let now = new Date();
+            if(now.toLocaleDateString() === dateObject.toLocaleDateString()) {
+                return "Today";
             } else {
                 return dateObject.toLocaleDateString();
             }
         });
         Handlebars.registerHelper('date_iso_helper', function(date) {
             if(!(date instanceof Date)) {
-                return '';
+                return '2016-01-01';
             }
-            return date.toDateISOString();
+            return date.toISOString().substr(0, 10);
         });
     }
 

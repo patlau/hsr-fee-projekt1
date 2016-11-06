@@ -9,8 +9,9 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
         if(!$('#list')) {
             return;
         }
-        handlebarModule.loadTemplate("#list", "list-template", {"notes": NoteModule.listService.getNotes()});
-        // Register event handler must be called always after setting list
+        let notes = NoteModule.listService.getNotes();
+        handlebarModule.loadTemplate("#list", "list-template", {"notes": notes});
+
         $('#list').on('click', '.edit', function() {
             let noteId = $(this).closest("tr").data().noteId;
             let note = NoteModule.listService.getNote(noteId);
@@ -26,6 +27,8 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
             let noteId = $(this).closest("tr").data().noteId;
             let checked = $(this).is(':checked');
             NoteModule.listService.setDone(noteId, checked);
+            if(checked)
+                setTimeout(updateListTemplate, 100);
         });
         NoteModule.listService.pollNote(updateListTemplate);
     }

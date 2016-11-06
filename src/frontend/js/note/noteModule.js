@@ -6,10 +6,6 @@
 
 var NoteModule = function() {
 
-    Date.prototype.toDateISOString = function () {
-        return this.toISOString().substr(0, 10);
-    };
-
     class Note {
 
         constructor(data = {}) {
@@ -18,9 +14,9 @@ var NoteModule = function() {
             this.title = data.title || "Neue Notiz";
             this.description = data.description || "";
             this.importance = data.importance || 0;
-            this.createdDate = data.createdDate || (new Date());
-            this.finishedDate = data.finishedDate || "";
-            this.dueDate = data.dueDate || (new Date());
+            this.createdDate = new Date(data.createdDate);
+            this.finishedDate = (data.finishedDate ? Date(data.finishedDate) : null);
+            this.dueDate = new Date(data.dueDate);
         }
 
         get id() {
@@ -32,14 +28,14 @@ var NoteModule = function() {
         }
 
         get done() {
-            return this.finishedDate !== null && this.finishedDate !== "";
+            return this.finishedDate !== null;
         }
 
         set done(value) {
             if(value) {
                 this.finishedDate = (new Date());
             } else {
-                this.finishedDate = "";
+                this.finishedDate = null;
             }
         }
     }
