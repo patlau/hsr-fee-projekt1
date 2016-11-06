@@ -3,26 +3,28 @@
   "version": "0.0.1",
   "description": "HSR FEE Projekt1",
   "engines": {
-    "node": ">=6.9.0"
+    "node": "6.5.0"
   },
   "private": true,
   "scripts": {
     "build": "gulp build",
     "lint": "gulp lint:js",
-    "start": "gulp start"
+    "start": "gulp start",
+    "heroku": "nf start"
   },
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.12.4",
     "cookie-parser": "^1.3.5",
     "express": "^4.12.4",
-    "method-override": "^2.3.3",
-    "nedb": "^1.1.2",
-    "normalize.css": "3.0.3",
-    "handlebars": "4.0.5",
     "font-awesome": "4.6.3",
+    "foreman": "2.0.0",
+    "handlebars": "4.0.5",
+    "jquery": "3.1.0",
+    "method-override": "^2.3.3",
     "modernizr": "^3.3.1",
-    "jquery": "3.1.0"
+    "nedb": "^1.1.2",
+    "normalize.css": "3.0.3"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.0",
@@ -48,8 +50,7 @@
   "h5bp-configs": {
     "directories": {
       "dist": "dist",
-      "src": "src",
-      "test": "test"
+      "src": "src"
     }
   }
 }
