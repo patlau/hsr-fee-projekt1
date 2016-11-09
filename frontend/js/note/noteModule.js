@@ -14,9 +14,9 @@ var NoteModule = function() {
             this.title = data.title || "Neue Notiz";
             this.description = data.description || "";
             this.importance = data.importance || 0;
-            this.createdDate = new Date(data.createdDate);
-            this.finishedDate = (data.finishedDate ? Date(data.finishedDate) : null);
-            this.dueDate = new Date(data.dueDate);
+            this.createdDate = (data.createdDate ? new Date(data.createdDate) : new Date());
+            this.finishedDate = (data.finishedDate ? new Date(data.finishedDate) : null);
+            this.dueDate = (data.dueDate ? new Date(data.dueDate) : new Date());
         }
 
         get id() {

@@ -40,6 +40,11 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
         handlebarModule.loadTemplate("main", "master-template", {});
 
         // Register event handlers
+
+        $("#refreshList").on( "click", function() {
+            NoteModule.listService.loadNotes(updateListTemplate);
+        });
+
         $( ".sortButton" ).on( "click", function() {
 
             let sortBy = $(this).data().sortBy;
@@ -55,9 +60,11 @@ NoteModule.listController = (function($, handlebarModule, styleModule) {
 
         });
         $( "#newNote" ).on( "click", function() {
-            NoteModule.listService.addNote(function() {
-                updateListTemplate();
-            });
+            //NoteModule.listService.addNote(function() {
+            //    updateListTemplate();
+            //});
+            let note = NoteModule.listService.newNote();
+            NoteModule.editController.display(note);
         });
         $( "#showFinished" ).on( "click", function() {
             NoteModule.listService.toggleShowFinished();

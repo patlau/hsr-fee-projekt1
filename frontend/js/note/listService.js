@@ -52,11 +52,14 @@ NoteModule.listService = (function($, storageService) {
 
     // Load notes
     function publicLoadNotes(callback) {
+        notes = [];
         if (!notes || notes.length === 0) {
             storageService.loadNotes().then(
                 function(data) {
                     console.log('***LOAD', data);
-                    data.forEach(each => notes.push(noteFactory(each)));
+                    let newNotes = [];
+                    data.forEach(each => newNotes.push(noteFactory(each)));
+                    notes = newNotes;
                     console.log(notes);
                     if(callback) callback();
                 },
@@ -66,19 +69,6 @@ NoteModule.listService = (function($, storageService) {
         } else {
             if(callback) callback();
         }
-    }
-
-    function publicAddNote(callback) {
-        let note = storageService.createNote().then(
-            function(data) {
-                let note = noteFactory(data);
-                let note2 = notes.find(each => each.id === note.id);
-                if(!note2) {
-                    notes.push(note);
-                    if(callback) callback();
-                }
-            },
-            function(err) {window.alert(err)});
     }
 
     function publicToggleShowFinished() {
@@ -116,6 +106,7 @@ NoteModule.listService = (function($, storageService) {
     }
 
     function eventHandler(event, noteData, callback) {
+        console.log('EVENT', event, noteData);
         let note = noteFactory(noteData);
         let note2 = notes.find(each => each.id === note.id);
         if(event === 'created' && !note2) {
@@ -168,9 +159,14 @@ NoteModule.listService = (function($, storageService) {
         )
     }
 
+    function publicNewNote() {
+        let note = noteFactory({});
+        return note;
+    }
+
     return {
+        newNote: publicNewNote,
         loadNotes: publicLoadNotes,
-        addNote: publicAddNote,
         toggleShowFinished: publicToggleShowFinished,
         getNotes: publicGetNotes,
         getNote: publicGetNote,

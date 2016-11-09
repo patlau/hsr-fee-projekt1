@@ -19,12 +19,19 @@ NoteModule.storageService = (function($){
     }
 
     function publicSaveNote(note) {
+        if(note.id) {
+            return updateNote(note);
+        } else {
+            return createNote(note);
+        }
+    }
+
+    function updateNote(note) {
         console.log('REST>>PUT ' + JSON.stringify(note));
         return ajax("PUT", "/notes/" + note.id, note);
     }
 
-    function publicCreateNote() {
-        let note = {};
+    function createNote(note) {
         console.log('REST>>POST ' + JSON.stringify(note));
         return ajax("POST", "/notes", note);
     }
@@ -41,7 +48,6 @@ NoteModule.storageService = (function($){
     return {
         loadNotes: publicLoadNotes,
         saveNote: publicSaveNote,
-        createNote: publicCreateNote,
         pollNote: publicPollNote,
         deleteNote: publicDeleteNote
     };
