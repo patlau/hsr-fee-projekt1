@@ -68,7 +68,7 @@ var handlebarModule = (function($) {
         });
         Handlebars.registerHelper('date_iso_helper', function(date) {
             if(!(date instanceof Date)) {
-                return '2016-01-01';
+                date = new Date(date);
             }
             return date.toISOString().substr(0, 10);
         });
